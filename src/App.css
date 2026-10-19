@@ -5294,4 +5294,114 @@ body,
     padding: 3px 7px;
     font-size: 10px;
   }
+}/* Hide empty chat placeholder on mobile */
+@media (max-width: 650px) {
+  .chat-empty,
+  .empty-chat,
+  .empty-chat-state,
+  .chat-placeholder {
+    display: none !important;
+  }
+}@media (max-width: 650px) {
+  .chat-container,
+  .chat-layout,
+  .chat-main {
+    min-height: 0;
+    height: auto;
+  }
+
+  .chat-empty,
+  .empty-chat,
+  .empty-chat-state,
+  .chat-placeholder {
+    display: none !important;
+  }
+}
+/* Hide empty chat message on mobile only */
+@media (max-width: 650px) {
+  .chat-empty {
+    display: none !important;
+  }
+
+  .chat-window {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+}
+
+/* WhatsApp-style mobile chat list */
+@media (max-width: 650px) {
+  .chat-page {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    gap: 0 !important;
+  }
+
+  .chat-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    border: 0 !important;
+    overflow: visible !important;
+  }
+
+  .chat-sidebar h2 {
+    padding: 16px !important;
+    margin: 0 !important;
+  }
+
+  .chat-user {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 76px !important;
+    padding: 12px 16px !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #eeeeee !important;
+    text-align: left !important;
+  }
+
+  .chat-avatar {
+    flex-shrink: 0 !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+  }
+
+  .chat-user > span:last-child {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .chat-user strong,
+  .chat-user small {
+    display: block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .chat-window {
+    display: none !important;
+  }
+
+  .chat-window.chat-window-visible {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: calc(100dvh - 140px) !important;
+  }
+
+  .chat-sidebar.chat-sidebar-hidden {
+    display: none !important;
+  }
+
+  .chat-empty {
+    display: none !important;
+  }
 }
