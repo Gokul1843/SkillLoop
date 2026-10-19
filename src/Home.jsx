@@ -607,7 +607,7 @@ export default function Home({ user }) {
           <button
             key={name}
             className={`nav ${active === name ? "active" : ""} ${name === "Friends" ? "friends-nav" : ""
-              } ${[ "Challenges","Profile", "Notifications", "Dark Mode", "Logout"].includes(name)
+              } ${["Challenges", "Profile", "Notifications", "Dark Mode", "Logout"].includes(name)
                 ? "mobile-hide-nav"
                 : ""
               }`}
@@ -988,10 +988,55 @@ export default function Home({ user }) {
         )}
 
         {active === "Explore" && (
-          <section className="challenge">
-            <div>
-              <h3>Explore new skills 🌟</h3>
-              <p>Discover drawing, coding, writing and design.</p>
+          <section className="explore-page">
+            <h2>Explore Skills 🌟</h2>
+            <p>Discover posts from the SkillLoop community.</p>
+
+            {loading && <p>Loading posts...</p>}
+
+            {!loading && posts.length === 0 && (
+              <p>No posts yet. Be the first to share something!</p>
+            )}
+
+            <div className="explore-post-list">
+              {posts.map((post) => {
+                const profile = profiles[post.authorId] || {};
+                const creatorName =
+                  profile.displayName ||
+                  profile.name ||
+                  post.authorEmail ||
+                  "SkillLoop Creator";
+
+                return (
+                  <article className="post community-post" key={post.id}>
+                    <div className="avatar">
+                      {profile.photoURL ? (
+                        <img src={profile.photoURL} alt={creatorName} />
+                      ) : (
+                        creatorName.charAt(0).toUpperCase()
+                      )}
+                    </div>
+
+                    <div className="post-body">
+                      <strong>{creatorName}</strong>
+                      <p className="post-text">{post.text}</p>
+
+                      <PostLikes
+                        postId={post.id}
+                        userId={user.uid}
+                        authorId={post.authorId}
+                        actorName={user.displayName || user.email || "SkillLoop user"}
+                      />
+
+                      <PostComments
+                        postId={post.id}
+                        postAuthorId={post.authorId}
+                        user={user}
+                      />
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </section>
         )}
