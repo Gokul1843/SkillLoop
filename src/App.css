@@ -4809,3 +4809,489 @@ select:focus {
 .story-navigation button:hover {
   background: rgba(255, 255, 255, 0.28);
 }
+
+
+
+/* Mobile navigation: Friends icon only */
+@media (max-width: 768px) {
+  .sidebar .nav:has(svg) span:not(.notification-badge) {
+    /* Keep other navigation labels unchanged */
+  }
+
+  .sidebar .nav:has(svg) {
+    /* Existing navigation layout remains unchanged */
+  }
+
+  .sidebar .nav:has(svg) span {
+    /* No global label changes here */
+  }
+
+  .sidebar .nav:has(svg) {
+    /* Friends-specific styling */
+  }
+
+  .sidebar .nav:has(svg) span:first-of-type {
+    /* Intentionally unchanged */
+  }
+}
+
+@media (max-width: 768px) {
+  .friends-nav > span:not(.notification-badge) {
+    display: none;
+  }
+}
+
+/* Mobile: Friends icon only */
+@media (max-width: 650px) {
+  .sidebar .nav.friends-nav > span:not(.notification-badge) {
+    display: none !important;
+  }
+
+  .sidebar .nav.friends-nav {
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media (max-width: 650px) {
+  .sidebar .nav.friends-nav > span:not(.notification-badge) {
+    display: none !important;
+  }
+
+  .sidebar .nav {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 2px;
+    justify-content: center;
+  }
+
+  .sidebar .nav > svg {
+    flex-shrink: 0;
+  }
+}
+/* Mobile bottom navigation: icons only */
+@media (max-width: 650px) {
+  .sidebar .nav {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 8px 2px;
+    margin: 0;
+    font-size: 0;
+  }
+
+  .sidebar .nav > span:not(.notification-badge) {
+    display: none !important;
+  }
+
+  .sidebar .nav > svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .sidebar .nav .notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    font-size: 10px;
+  }
+
+  .sidebar .nav {
+    position: relative;
+  }
+}
+@media (max-width: 650px) {
+  .sidebar .mobile-hide-nav {
+    display: none !important;
+  }
+}
+@media (max-width: 650px) {
+  .sidebar .theme-toggle,
+  .sidebar .logout {
+    display: none !important;
+  }
+}/* Floating create post button - mobile only */
+.mobile-create-post-btn {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  .mobile-create-post-btn {
+    display: flex;
+    position: fixed;
+    right: 20px;
+    bottom: 82px;
+    z-index: 20;
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 50%;
+    background: #6c5ce7;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    box-shadow: 0 4px 12px #0003;
+    cursor: pointer;
+  }
+}/* Create post popup */
+.create-post-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.create-post-modal {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  border-radius: 18px;
+  background: white;
+  color: #222;
+  box-shadow: 0 10px 40px #0003;
+}/* Fix mobile card/box layout */
+@media (max-width: 650px) {
+  .content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .stories-section,
+  .post-form,
+  .community-post,
+  .friend-card,
+  .profile-card,
+  .challenge {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .community-post,
+  .post-form,
+  .friend-card,
+  .profile-card,
+  .challenge {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.create-post-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  .desktop-create-post {
+    display: none;
+  }
+
+  .create-post-modal {
+    padding: 22px 16px;
+  }
+}
+
+@media (min-width: 651px) {
+  .create-post-overlay {
+    display: none !important;
+  }
+}/* Remove Create Post box border on all screen sizes */
+.post-form {
+  border: none !important;
+  box-shadow: none !important;
+}/* ===== SkillLoop: Flat Design All Sections ===== */
+
+/* Remove borders and shadows from all main sections */
+.post,
+.community-post,
+.post-form,
+.auth-card,
+.challenge,
+.friend-card,
+.profile-card,
+.comments-section,
+.stories-section,
+.hero,
+.notification-panel {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Flat background for cards */
+.post,
+.community-post,
+.post-form,
+.auth-card,
+.challenge,
+.friend-card,
+.profile-card,
+.comments-section,
+.stories-section {
+  border-radius: 0 !important;
+}
+
+/* Remove hover card effects */
+.post:hover,
+.community-post:hover,
+.friend-card:hover,
+.challenge:hover {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Remove borders from main layout */
+.sidebar {
+  border-right: none !important;
+}
+
+/* Flat inputs */
+input,
+textarea,
+select {
+  box-shadow: none !important;
+}
+
+/* Keep buttons flat */
+button {
+  box-shadow: none !important;
+}/* ===== Full Width Layout — All Sections ===== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.content {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Sections fill available width */
+.post,
+.community-post,
+.post-form,
+.stories-section,
+.hero,
+.challenge,
+.friend-card,
+.profile-card,
+.comments-section,
+.notification-panel {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  box-sizing: border-box;
+}
+
+/* Remove card gaps and rounded corners */
+.post,
+.community-post,
+.post-form,
+.stories-section,
+.challenge,
+.friend-card,
+.profile-card,
+.comments-section {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Mobile full-width layout */
+@media (max-width: 650px) {
+  .content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .post,
+  .community-post,
+  .post-form,
+  .stories-section,
+  .challenge,
+  .friend-card,
+  .profile-card {
+    width: 100%;
+    margin: 0;
+  }
+}/* ===== SkillLoop Mobile Layout Fix ===== */
+@media (max-width: 650px) {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 12px 0 90px !important;
+    overflow-x: hidden;
+  }
+
+  .topbar,
+  .stories-section,
+  .post,
+  .community-post,
+  .post-form,
+  .hero,
+  .challenge,
+  .friend-card,
+  .profile-card,
+  .comments-section,
+  .notification-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+  }
+
+  .post,
+  .community-post,
+  .post-form,
+  .stories-section,
+  .challenge,
+  .friend-card,
+  .profile-card,
+  .comments-section {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .post-form textarea,
+  .comment-form input,
+  .content input,
+  .content textarea,
+  .content select {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .mobile-create-post-btn {
+    position: fixed;
+    right: 18px;
+    bottom: 82px;
+    z-index: 100;
+  }
+}/* Compact comments on mobile */
+@media (max-width: 650px) {
+  .comments-section {
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+
+  .comments-section h4 {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .comment-form {
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .comment-form input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .comment-form button {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .comment-item {
+    gap: 7px;
+    padding: 7px 0;
+  }
+
+  .comment-avatar {
+    width: 25px;
+    height: 25px;
+    font-size: 11px;
+  }
+
+  .comment-content strong {
+    font-size: 11px;
+  }
+
+  .comment-content p {
+    margin: 3px 0;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .comment-content span {
+    font-size: 10px;
+  }
+
+  .delete-comment {
+    margin-top: 4px;
+    padding: 3px 7px;
+    font-size: 10px;
+  }
+}
