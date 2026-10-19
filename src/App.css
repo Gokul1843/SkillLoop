@@ -5405,3 +5405,252 @@ body,
     display: none !important;
   }
 }
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  margin: 16px -12px;
+}
+
+.explore-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #eeeaf9;
+  cursor: pointer;
+}
+
+.explore-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.explore-text-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #e8e0ff, #d7f4f0);
+  color: #30264f;
+  text-align: center;
+}
+
+.explore-text-tile span {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.explore-text-tile p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 651px) {
+  .explore-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  .explore-tile {
+    aspect-ratio: 1;
+    border-radius: 5px;
+  }
+}
+.explore-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.75);
+  overflow-y: auto;
+}
+
+.explore-viewer {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  border-radius: 14px;
+  background: white;
+  color: #222;
+}
+
+.explore-viewer-close {
+  position: sticky;
+  top: 8px;
+  float: right;
+  z-index: 2;
+  margin: 8px;
+  padding: 8px 11px;
+  border: 0;
+  border-radius: 50%;
+  background: #eee;
+  cursor: pointer;
+}
+
+.explore-viewer-author {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px;
+}
+
+.explore-viewer-author span {
+  color: #777;
+  font-size: 12px;
+}
+
+.explore-viewer-image {
+  display: block;
+  width: 100%;
+  max-height: 60dvh;
+  object-fit: contain;
+  background: #111;
+}
+
+.explore-viewer-content {
+  padding: 16px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 650px) {
+  .explore-viewer-overlay {
+    padding: 0;
+  }
+
+  .explore-viewer {
+    width: 100%;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+}.explore-viewer-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.explore-viewer-avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5e7eb;
+  font-weight: bold;
+}
+
+.explore-viewer-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.explore-viewer-author span {
+  display: block;
+  margin-top: 4px;
+  color: #777;
+  font-size: 12px;
+}
+.post-highlighted {
+  outline: 3px solid #6366f1;
+  outline-offset: 4px;
+  border-radius: 12px;
+  animation: postHighlight 2s ease-out;
+}
+
+@keyframes postHighlight {
+  0%, 100% {
+    outline-color: transparent;
+  }
+  20%, 70% {
+    outline-color: #6366f1;
+  }
+}.share-post-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 9px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.share-post-btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+}.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.post-actions .share-post-btn {
+  margin: 8px 0;
+}
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.post-actions .likes-area {
+  margin: 8px 0;
+}
+
+.share-post-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 9px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.share-post-btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+
+}

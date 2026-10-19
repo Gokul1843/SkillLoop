@@ -553,7 +553,7 @@ export default function Chat() {
                     <div className="chat-empty">
                         <MessageCircle size={48} />
                         <h3>Your messages</h3>
-                        <p>Private conversation shuru karne ke liye user select karo.</p>
+                        <p>Private conversation </p>
                     </div>
                 ) : (
                     <>

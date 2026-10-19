@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   Send,
+  Share2,
   Heart,
   MessageCircle,
   Users,
@@ -138,6 +139,7 @@ function PostComments({ postId, postAuthorId, user }) {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
+
 
   // Effect 1: Load comment profiles
   useEffect(() => {
@@ -361,6 +363,8 @@ export default function Home({ user }) {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [profiles, setProfiles] = useState({});
+  const [selectedExplorePost, setSelectedExplorePost] = useState(null);
+  const [highlightedPostId, setHighlightedPostId] = useState(null);
 
   const [activeStory, setActiveStory] = useState(null);
   useEffect(() => {
@@ -509,7 +513,28 @@ export default function Home({ user }) {
     };
   }, [posts]);
 
+  useEffect(() => {
+    const postId = new URLSearchParams(window.location.search).get("post");
 
+    if (!postId || posts.length === 0) return;
+
+    const postExists = posts.some((post) => post.id === postId);
+    if (!postExists) return;
+
+    setActive("Home");
+    setHighlightedPostId(postId);
+
+    const timer = window.setTimeout(() => {
+      document
+        .getElementById(`post-${postId}`)
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [posts]);
 
   async function createPost(e) {
     e.preventDefault();
@@ -581,7 +606,31 @@ export default function Home({ user }) {
     return () => unsubscribe();
   }, [user?.uid]);
 
+  async function sharePost(post) {
+    const shareUrl = new URL(window.location.href);
+    shareUrl.search = "";
+    shareUrl.searchParams.set("post", post.id);
 
+    const shareData = {
+      title: "SkillLoop Community Post",
+      text: post.text || "Check out this post on SkillLoop!",
+      url: shareUrl.toString(),
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(shareData.url);
+        setMessage("Post link copied! Share it with your friends.");
+      }
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Share failed:", error);
+        setMessage("Could not share the post. Please try again.");
+      }
+    }
+  }
   return (
     <div className={darkMode ? "app dark-mode" : "app"}>
       <Notifications
@@ -947,7 +996,12 @@ export default function Home({ user }) {
             )}
 
             {posts.map((post) => (
-              <article className="post community-post" key={post.id}>
+              <article
+                id={`post-${post.id}`}
+                className={`post community-post ${highlightedPostId === post.id ? "post-highlighted" : ""
+                  }`}
+                key={post.id}
+              >
 
                 <div className="avatar">
                   {profiles[post.authorId]?.photoURL ? (
@@ -979,8 +1033,29 @@ export default function Home({ user }) {
                   </p>
                   <p className="post-text">{post.text}</p>
 
-                  <PostLikes postId={post.id} userId={user.uid} authorId={post.authorId} actorName={user.displayName || user.email || "SkillLoop user"} />
-                  <PostComments postId={post.id} postAuthorId={post.authorId} user={user} />
+                  <div className="post-actions">
+                    <PostLikes
+                      postId={post.id}
+                      userId={user.uid}
+                      authorId={post.authorId}
+                      actorName={user.displayName || user.email || "SkillLoop user"}
+                    />
+
+                    <button
+                      type="button"
+                      className="share-post-btn"
+                      onClick={() => sharePost(post)}
+                    >
+                      <Share2 size={18} />
+                      Share
+                    </button>
+                  </div>
+
+                  <PostComments
+                    postId={post.id}
+                    postAuthorId={post.authorId}
+                    user={user}
+                  />
 
                 </div>
               </article>
@@ -988,54 +1063,52 @@ export default function Home({ user }) {
           </>
         )}
 
+
         {active === "Explore" && (
           <section className="explore-page">
-            <h2>Explore Skills 🌟</h2>
-            <p>Discover posts from the SkillLoop community.</p>
+            <h2>Explore 🌎</h2>
 
             {loading && <p>Loading posts...</p>}
 
             {!loading && posts.length === 0 && (
-              <p>No posts yet. Be the first to share something!</p>
+              <p>No posts yet. Share something with the community!</p>
             )}
 
-            <div className="explore-post-list">
+            <div className="explore-grid">
               {posts.map((post) => {
-                const profile = profiles[post.authorId] || {};
-                const creatorName =
-                  profile.displayName ||
-                  profile.name ||
-                  post.authorEmail ||
-                  "SkillLoop Creator";
+                const imageUrl = post.imageUrl || post.image;
 
                 return (
-                  <article className="post community-post" key={post.id}>
-                    <div className="avatar">
-                      {profile.photoURL ? (
-                        <img src={profile.photoURL} alt={creatorName} />
-                      ) : (
-                        creatorName.charAt(0).toUpperCase()
-                      )}
-                    </div>
+                  <button
+                    type="button"
+                    className="explore-tile"
+                    key={post.id}
+                    onClick={() => {
+                      setSelectedExplorePost(null);
+                      setHighlightedPostId(post.id);
+                      setActive("Home");
 
-                    <div className="post-body">
-                      <strong>{creatorName}</strong>
-                      <p className="post-text">{post.text}</p>
-
-                      <PostLikes
-                        postId={post.id}
-                        userId={user.uid}
-                        authorId={post.authorId}
-                        actorName={user.displayName || user.email || "SkillLoop user"}
+                      setTimeout(() => {
+                        document
+                          .getElementById(`post-${post.id}`)
+                          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }, 300);
+                    }}
+                    aria-label="Open community post"
+                  >
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt={post.text || "Community post"}
+                        loading="lazy"
                       />
-
-                      <PostComments
-                        postId={post.id}
-                        postAuthorId={post.authorId}
-                        user={user}
-                      />
-                    </div>
-                  </article>
+                    ) : (
+                      <div className="explore-text-tile">
+                        <span>✨ SkillLoop</span>
+                        <p>{post.text || "Shared with the community"}</p>
+                      </div>
+                    )}
+                  </button>
                 );
               })}
             </div>
@@ -1068,9 +1141,93 @@ export default function Home({ user }) {
             onUnreadCountChange={setUnreadCount}
           />
         )}
-
         {active === "Profile" && <Profile user={user} />}
 
+        {/* Explore Post Viewer yahan paste karo */}
+        {selectedExplorePost && (() => {
+          const post = selectedExplorePost;
+          const profile = profiles[post.authorId] || {};
+          const creatorName =
+            profile.displayName ||
+            profile.name ||
+            post.authorEmail ||
+            "SkillLoop Creator";
+          const imageUrl = post.imageUrl || post.image;
+
+          return (
+            <div
+              className="explore-viewer-overlay"
+              onClick={() => setSelectedExplorePost(null)}
+            >
+              <article
+                className="explore-viewer"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  className="explore-viewer-close"
+                  onClick={() => setSelectedExplorePost(null)}
+                >
+                  ✕
+                </button>
+
+                <div className="explore-viewer-author">
+                  <div className="explore-viewer-avatar">
+                    {profile.photoURL ? (
+                      <img src={profile.photoURL} alt={creatorName} />
+                    ) : (
+                      (creatorName[0] || "U").toUpperCase()
+                    )}
+                  </div>
+
+                  <div>
+                    <strong>{creatorName}</strong>
+                    <span>
+                      {post.createdAt?.toDate
+                        ? post.createdAt.toDate().toLocaleString()
+                        : "Community post"}
+                    </span>
+                  </div>
+                </div>
+
+                {imageUrl && (
+                  <img
+                    className="explore-viewer-image"
+                    src={imageUrl}
+                    alt={post.text || "Community post"}
+                  />
+                )}
+
+                <div className="explore-viewer-content">
+                  <p>{post.text}</p>
+                  <div className="post-actions">
+                    <PostLikes
+                      postId={post.id}
+                      userId={user.uid}
+                      authorId={post.authorId}
+                      actorName={user.displayName || user.email || "SkillLoop user"}
+                    />
+
+                    <button
+                      type="button"
+                      className="share-post-btn"
+                      onClick={() => sharePost(post)}
+                    >
+                      <Share2 size={18} />
+                      Share
+                    </button>
+                  </div>
+
+                  <PostComments
+                    postId={post.id}
+                    postAuthorId={post.authorId}
+                    user={user}
+                  />
+                </div>
+              </article>
+            </div>
+          );
+        })()}
 
 
       </main>
