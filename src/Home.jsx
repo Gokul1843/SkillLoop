@@ -451,15 +451,16 @@ export default function Home({ user }) {
     const unsubscribe = onSnapshot(
       postsQuery,
       (snapshot) => {
-        setPosts(
-          snapshot.docs.map((item) => ({
-            id: item.id,
-            ...item.data(),
-          }))
-        );
+        const latestPosts = snapshot.docs.map((item) => ({
+          id: item.id,
+          ...item.data(),
+        }));
+
+        setPosts(latestPosts);
         setLoading(false);
       },
       (error) => {
+        console.error("Posts loading error:", error);
         setMessage("Could not load posts: " + error.message);
         setLoading(false);
       }
