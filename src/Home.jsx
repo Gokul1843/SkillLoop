@@ -607,7 +607,7 @@ export default function Home({ user }) {
           <button
             key={name}
             className={`nav ${active === name ? "active" : ""} ${name === "Friends" ? "friends-nav" : ""
-              } ${[ "Profile", "Notifications", "Dark Mode", "Logout"].includes(name)
+              } ${[ "Challenges","Profile", "Notifications", "Dark Mode", "Logout"].includes(name)
                 ? "mobile-hide-nav"
                 : ""
               }`}
