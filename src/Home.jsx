@@ -354,6 +354,7 @@ export default function Home({ user }) {
   }, [darkMode]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [active, setActive] = useState("Home");
+  const [showCreatePost, setShowCreatePost] = useState(false);
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -605,11 +606,14 @@ export default function Home({ user }) {
         ].map(([name, Icon]) => (
           <button
             key={name}
-            className={active === name ? "nav active" : "nav"}
+            className={`nav ${active === name ? "active" : ""} ${name === "Friends" ? "friends-nav" : ""
+              } ${["Messages", "Profile", "Notifications", "Dark Mode", "Logout"].includes(name)
+                ? "mobile-hide-nav"
+                : ""
+              }`}
             onClick={() => setActive(name)}
           >
             <Icon size={20} />
-
             <span>{name}</span>
 
             {name === "Notifications" && unreadCount > 0 && (
@@ -658,7 +662,16 @@ export default function Home({ user }) {
 
       <main className="content">
 
-
+        {active === "Home" && (
+          <button
+            type="button"
+            className="mobile-create-post-btn"
+            onClick={() => setShowCreatePost(true)}
+            aria-label="Create a post"
+          >
+            +
+          </button>
+        )}
         {active !== "Messages" && (
           <header className="topbar">
             <div>
@@ -815,38 +828,115 @@ export default function Home({ user }) {
             )}
 
 
-            <h2 className="section-title">Create a post</h2>
+            {/* Desktop create post form */}
+            <div className="desktop-create-post">
+              <h2 className="section-title">Create a post</h2>
 
+              <form className="post-form" onSubmit={createPost}>
+                <textarea
+                  value={postText}
+                  onChange={(e) => setPostText(e.target.value)}
+                  placeholder="What have you learned or created today?"
+                  maxLength={1000}
+                  required
+                  rows={4}
+                />
 
-            <form className="post-form" onSubmit={createPost}>
-              <textarea
-                value={postText}
-                onChange={(e) => setPostText(e.target.value)}
-                placeholder="What have you learned or created today?"
-                maxLength={1000}
-                required
-                rows={4}
-              />
+                <div className="post-form-footer">
+                  <span>{postText.length}/1000</span>
+                  <button
+                    className="create"
+                    type="submit"
+                    disabled={saving || !postText.trim()}
+                  >
+                    <Send size={17} />
+                    {saving ? "Publishing..." : "Publish"}
+                  </button>
+                </div>
 
-              <div className="post-form-footer">
-                <span>{postText.length}/1000</span>
-                <button
-                  className="create"
-                  type="submit"
-                  disabled={saving || !postText.trim()}
+                {message && <p className="auth-message">{message}</p>}
+              </form>
+            </div>
+
+            {/* Mobile create post popup */}
+            {showCreatePost && (
+              <div
+                className="create-post-overlay"
+                onClick={() => setShowCreatePost(false)}
+              >
+                <section
+                  className="create-post-modal"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Create a post"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <Send size={17} />
-                  {saving ? "Publishing..." : "Publish"}
-                </button>
+                  <button
+                    type="button"
+                    className="create-post-close"
+                    onClick={() => setShowCreatePost(false)}
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+
+                  <h2>Create a post</h2>
+
+                  <form
+                    className="post-form"
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+
+                      if (!postText.trim() || saving) return;
+
+                      setSaving(true);
+                      setMessage("");
+
+                      try {
+                        await addDoc(collection(db, "posts"), {
+                          text: postText.trim(),
+                          authorId: user.uid,
+                          authorEmail: user.email || "",
+                          createdAt: serverTimestamp(),
+                        });
+
+                        setPostText("");
+                        setMessage("Your post was published!");
+                        setShowCreatePost(false);
+                      } catch (error) {
+                        setMessage("Post failed: " + error.message);
+                      } finally {
+                        setSaving(false);
+                      }
+                    }}
+                  >
+
+                    <textarea
+                      value={postText}
+                      onChange={(e) => setPostText(e.target.value)}
+                      placeholder="What have you learned or created today?"
+                      maxLength={1000}
+                      required
+                      rows={5}
+                    />
+
+                    <div className="post-form-footer">
+                      <span>{postText.length}/1000</span>
+                      <button
+                        className="create"
+                        type="submit"
+                        disabled={saving || !postText.trim()}
+                      >
+                        <Send size={17} />
+                        {saving ? "Publishing..." : "Publish"}
+                      </button>
+                    </div>
+
+                    {message && <p className="auth-message">{message}</p>}
+                  </form>
+                </section>
               </div>
-
-              {message && (
-                <p className="auth-message" role="status">
-                  {message}
-                </p>
-              )}
-            </form>
-
+            )}
             <h2 className="section-title">Community feed</h2>
 
             {loading && <p>Loading posts...</p>}
