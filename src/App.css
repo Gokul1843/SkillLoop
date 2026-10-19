@@ -2333,3 +2333,2479 @@ button {
   }
 }
 
+
+/* Friends & user search */
+.friends-page { width: 100%; max-width: 860px; margin: 0 auto; }
+.friends-intro { display: flex; align-items: center; gap: 14px; margin: 4px 0 25px; }
+.friends-heading-icon { width: 52px; height: 52px; flex: 0 0 52px; display: grid; place-items: center; border-radius: 16px; color: #6948ec; background: #eeeaff; }
+.friends-intro h2 { margin: 0 0 6px; font-size: 25px; }
+.friends-intro p { margin: 0; color: #777b90; line-height: 1.5; }
+.friends-section { margin: 0 0 24px; padding: 20px; background: #fff; border: 1px solid #ececf4; border-radius: 18px; box-shadow: 0 4px 18px rgba(38, 34, 80, .035); }
+.friends-section-title { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.friends-section-title h3 { margin: 0; font-size: 17px; }
+.friends-section-title > span { min-width: 25px; height: 25px; display: inline-grid; place-items: center; padding: 0 7px; border-radius: 20px; color: #6948ec; background: #f0edff; font-size: 12px; font-weight: 700; }
+.friend-card { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 13px 0; border-top: 1px solid #f0f0f6; }
+.friend-avatar { width: 46px; height: 46px; flex: 0 0 46px; overflow: hidden; display: grid; place-items: center; border-radius: 50%; background: #f0edff; color: #6948ec; }
+.friend-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.friend-card-info { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.friend-card-info strong { overflow: hidden; color: #24243a; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.friend-card-info span, .friend-card-info small { overflow: hidden; color: #83869a; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.friend-card-info small { color: #795cf3; }
+.friend-card-actions { display: flex; align-items: center; justify-content: flex-end; gap: 7px; flex-shrink: 0; }
+.friend-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 8px 11px; border: 1px solid #e5e2f5; border-radius: 10px; color: #6550c8; background: #fff; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.friend-btn-primary { border-color: #7658ed; color: #fff; background: #7658ed; }
+.friend-btn-primary:hover { background: #6344dc; }
+.friend-btn-quiet { width: 36px; padding: 8px; color: #777b90; border-color: #e8e8f0; }
+.friend-btn:disabled { cursor: not-allowed; opacity: .55; }
+.friend-status { display: inline-flex; align-items: center; gap: 5px; color: #5d8a6b; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.friends-search { display: flex; align-items: center; gap: 10px; min-height: 48px; margin-bottom: 12px; padding: 0 13px; border: 1px solid #e7e6f1; border-radius: 13px; color: #85869a; background: #fbfbfe; }
+.friends-search:focus-within { border-color: #8d79f2; box-shadow: 0 0 0 3px rgba(118, 88, 237, .1); }
+.friends-search input { width: 100%; min-width: 0; padding: 12px 0; border: 0; outline: 0; color: #24243a; background: transparent; font: inherit; font-size: 14px; }
+.friends-search button { display: grid; place-items: center; padding: 5px; border: 0; color: #777b90; background: transparent; }
+.friends-empty, .friends-muted { margin: 0; padding: 12px 0; color: #85869a; font-size: 13px; line-height: 1.5; }
+.friends-notice, .friends-error { margin: 0 0 14px; padding: 11px 13px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+.friends-notice { color: #246b47; background: #eaf8ef; }
+.friends-error { color: #a12d42; background: #fff0f2; overflow-wrap: anywhere; }
+@media (max-width: 650px) {
+  .friends-intro { align-items: flex-start; gap: 11px; margin-top: 0; }
+  .friends-heading-icon { width: 44px; height: 44px; flex-basis: 44px; border-radius: 13px; }
+  .friends-intro h2 { font-size: 21px; }
+  .friends-intro p { font-size: 13px; }
+  .friends-section { padding: 15px 13px; margin-bottom: 16px; border-radius: 15px; }
+  .friend-card { gap: 9px; }
+  .friend-avatar { width: 40px; height: 40px; flex-basis: 40px; }
+  .friend-card-actions { gap: 5px; }
+  .friend-btn { min-height: 34px; padding: 7px 8px; font-size: 11px; }
+  .friend-btn-quiet { width: 32px; padding: 7px; }
+  .friend-status { font-size: 11px; }
+}
+@media (max-width: 390px) {
+  .friend-card-info strong { max-width: 125px; }
+  .friend-card-info span { max-width: 125px; }
+  .friend-btn span { display: inline; }
+  .friend-btn { gap: 4px; }
+}
+
+
+/* SkillLoop in-app notifications */
+.notification-widget {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 1000;
+}
+.notification-bell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #e7e7f0;
+  border-radius: 14px;
+  background: #fff;
+  color: #6948ec;
+  box-shadow: 0 5px 20px rgba(30, 25, 70, 0.12);
+}
+.notification-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #e83e67;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+.notification-panel {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  width: min(380px, calc(100vw - 24px));
+  max-height: min(560px, calc(100vh - 90px));
+  overflow: hidden;
+  border: 1px solid #e9e8f1;
+  border-radius: 16px;
+  background: #fff;
+  color: #202136;
+  box-shadow: 0 18px 55px rgba(30, 25, 70, 0.2);
+}
+.notification-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #eeeeF5;
+}
+.notification-panel-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.notification-panel-header small,
+.notification-item small {
+  color: #85899b;
+  font-size: 11px;
+}
+.notification-mark-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px;
+  background: #eeeaff;
+  color: #6948ec;
+  font-size: 12px;
+}
+.notification-mark-all:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.notification-list {
+  max-height: 470px;
+  overflow-y: auto;
+}
+.notification-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 14px;
+  border: 0;
+  border-bottom: 1px solid #f0eff6;
+  background: #fff;
+  color: inherit;
+  text-align: left;
+}
+.notification-item:hover,
+.notification-item.unread {
+  background: #f7f5ff;
+}
+.notification-item-icon {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eeeaff;
+  color: #6948ec;
+}
+.notification-item-body {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.notification-item-body strong {
+  font-size: 13px;
+}
+.notification-item-body > span {
+  color: #5e6275;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.notification-unread-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 7px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #7354f5;
+}
+.notification-empty,
+.notification-error {
+  margin: 0;
+  padding: 22px 16px;
+  color: #85899b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.notification-error { color: #c0364f; }
+
+@media (max-width: 650px) {
+  .notification-widget {
+    top: 12px;
+    right: 12px;
+  }
+  .notification-bell {
+    width: 42px;
+    height: 42px;
+  }
+  .notification-panel {
+    right: -2px;
+    width: min(360px, calc(100vw - 24px));
+  }
+  .topbar {
+    padding-right: 45px;
+  }
+}
+.notification-badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.notification-badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* SkillLoop Messages layout improvements */
+.messages-layout,
+.chat-layout,
+.chat-container {
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Hide unnecessary scrollbars */
+.messages-layout,
+.chat-layout,
+.chat-container,
+.conversations-list,
+.chat-list {
+  scrollbar-width: none;
+}
+
+.messages-layout::-webkit-scrollbar,
+.chat-layout::-webkit-scrollbar,
+.chat-container::-webkit-scrollbar,
+.conversations-list::-webkit-scrollbar,
+.chat-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent horizontal overflow */
+.messages-layout,
+.chat-layout,
+.chat-container,
+.conversations-list,
+.chat-list,
+.chat-window {
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Give the conversation area more room */
+.chat-window,
+.chat-area,
+.chat-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
+/* SkillLoop chat layout - final overrides */
+.chat-page {
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100dvh - 70px);
+  min-height: 450px;
+  max-height: none;
+  grid-template-columns: 260px minmax(0, 1fr);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.chat-sidebar {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-user {
+  min-width: 0;
+}
+
+.chat-user > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.chat-user strong,
+.chat-user small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-window {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chat-messages {
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .chat-page {
+    width: 100%;
+    height: calc(100dvh - 80px);
+    min-height: 350px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===== SkillLoop Chat: clean responsive design ===== */
+.chat-page {
+  display: grid !important;
+  grid-template-columns: 270px minmax(0, 1fr) !important;
+  width: 100%;
+  max-width: 1400px;
+  height: calc(100dvh - 80px) !important;
+  min-height: 450px;
+  max-height: none !important;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+  box-sizing: border-box;
+}
+
+.chat-sidebar {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  border-right: 1px solid #e5e7eb;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-sidebar::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-user {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 10px;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.chat-user:hover {
+  background: #f3f4ff;
+}
+
+.chat-user > span:last-child {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
+  overflow: hidden;
+}
+
+.chat-user strong,
+.chat-user small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-user strong {
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.chat-user small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.chat-avatar {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chat-header {
+  flex-shrink: 0;
+  padding: 14px 18px;
+  background: #fff;
+  border-bottom: 1px solid #e9edf3;
+}
+
+.chat-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f7f8fc;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-bubble {
+  max-width: min(75%, 560px);
+  overflow-wrap: anywhere;
+  border-radius: 16px;
+}
+
+.chat-composer {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  background: #fff;
+  border-top: 1px solid #e9edf3;
+}
+
+.chat-composer input {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (min-width: 641px) {
+  .chat-window,
+  .chat-window.chat-window-visible {
+    display: flex;
+  }
+
+  .chat-sidebar,
+  .chat-sidebar-hidden {
+    display: block;
+  }
+
+  .chat-page {
+    grid-template-columns: 270px minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .chat-page {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+    height: calc(100dvh - 70px) !important;
+    min-height: 350px;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .chat-sidebar {
+    padding: 10px;
+  }
+
+  .chat-sidebar-hidden {
+    display: none;
+  }
+
+  .chat-window {
+    display: none;
+  }
+
+  .chat-window.chat-window-visible {
+    display: flex;
+  }
+
+  .chat-messages {
+    padding: 12px 10px;
+  }
+
+  .chat-bubble {
+    max-width: 85%;
+  }
+}
+
+/* Make SkillLoop chat area bigger */
+.chat-page {
+  width: calc(100% - 24px) !important;
+  max-width: 1600px !important;
+  height: calc(100dvh - 48px) !important;
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+  margin: 0 auto !important;
+}
+
+/* Keep user list compact */
+.chat-sidebar {
+  width: 220px;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* Let the conversation fill remaining space */
+.chat-window {
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/* Use the available height for messages */
+.chat-messages {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Fill available screen with SkillLoop chat */
+.chat-page {
+  width: 100% !important;
+  max-width: none !important;
+  height: calc(100dvh - 40px) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+  box-sizing: border-box;
+}
+
+/* Compact conversation list */
+.chat-sidebar {
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Expand chat panel */
+.chat-window {
+  display: flex;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: 100%;
+  min-width: 0 !important;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Expand messages area */
+.chat-messages {
+  flex: 1 1 auto !important;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Keep message input at the bottom */
+.chat-composer {
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile layout */
+@media (max-width: 640px) {
+  .chat-page {
+    width: 100% !important;
+    height: calc(100dvh - 70px) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* SkillLoop chat text colors */
+.chat-sidebar h2,
+.chat-sidebar h3 {
+  color: #1e293b !important;
+}
+
+.chat-user strong,
+.chat-header strong {
+  color: #172033 !important;
+}
+
+.chat-user small,
+.chat-header p {
+  color: #64748b !important;
+}
+
+.chat-messages {
+  color: #1f2937;
+}
+
+.chat-bubble {
+  color: #1f2937;
+}
+
+.chat-composer input {
+  color: #1f2937 !important;
+  background: #ffffff;
+}
+
+.chat-composer input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.chat-user:hover {
+  background: #f1f5f9;
+}
+
+/* =====================================
+   SKILLLOOP — GLOBAL DESIGN SYSTEM
+   ===================================== */
+
+:root {
+  --sl-primary: #7354f5;
+  --sl-primary-dark: #5b3be0;
+  --sl-primary-light: #eeeaff;
+  --sl-bg: #f5f6fb;
+  --sl-card: #ffffff;
+  --sl-text: #202136;
+  --sl-muted: #697086;
+  --sl-border: #e6e8f0;
+  --sl-danger: #e54862;
+  --sl-radius: 16px;
+  --sl-shadow: 0 6px 24px rgba(31, 35, 70, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--sl-bg);
+  color: var(--sl-text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(115, 84, 245, 0.25);
+  outline-offset: 2px;
+}
+
+/* Main app and navigation */
+.app {
+  background: var(--sl-bg);
+  color: var(--sl-text);
+}
+
+.sidebar {
+  background: var(--sl-card);
+  border-right: 1px solid var(--sl-border);
+}
+
+.logo {
+  color: var(--sl-text);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.logo span {
+  color: var(--sl-primary);
+}
+
+.nav {
+  border: 0;
+  border-radius: 12px;
+  color: #596078;
+  background: transparent;
+  font-weight: 500;
+}
+
+.nav:hover {
+  background: #f5f2ff;
+  color: var(--sl-primary);
+}
+
+.nav.active {
+  background: var(--sl-primary-light);
+  color: var(--sl-primary-dark);
+  font-weight: 700;
+}
+
+.notification-badge {
+  background: var(--sl-danger);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.content {
+  color: var(--sl-text);
+  min-width: 0;
+}
+
+.topbar {
+  color: var(--sl-text);
+}
+
+.topbar h1 {
+  color: var(--sl-text);
+  font-weight: 750;
+  letter-spacing: -0.6px;
+}
+
+.topbar p,
+.muted,
+.side-note {
+  color: var(--sl-muted);
+}
+
+/* Headings and page sections */
+.section-title {
+  color: var(--sl-text);
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.35px;
+  margin-top: 26px;
+  margin-bottom: 14px;
+}
+
+.content h2,
+.content h3,
+.content h4 {
+  color: var(--sl-text);
+}
+
+/* Cards, posts, forms and profile sections */
+.post,
+.community-post,
+.post-form,
+.auth-card,
+.challenge,
+.friend-card,
+.profile-card,
+.comments-section {
+  background: var(--sl-card);
+  border: 1px solid var(--sl-border);
+  border-radius: var(--sl-radius);
+  box-shadow: var(--sl-shadow);
+}
+
+.post,
+.community-post {
+  padding: 20px;
+}
+
+.post-form {
+  padding: 20px;
+}
+
+.hero {
+  border-radius: 20px;
+  box-shadow: var(--sl-shadow);
+}
+
+.hero h2 {
+  color: var(--sl-text);
+  font-weight: 800;
+}
+
+.hero p {
+  color: var(--sl-muted);
+}
+
+/* Buttons */
+.create,
+.hero button,
+.auth-card form button,
+.auth-card > button,
+.comment-form button {
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: var(--sl-primary);
+  color: #fff;
+  font-weight: 650;
+  box-shadow: 0 3px 10px rgba(115, 84, 245, 0.12);
+}
+
+.create:hover,
+.hero button:hover,
+.auth-card form button:hover,
+.auth-card > button:hover,
+.comment-form button:hover {
+  background: var(--sl-primary-dark);
+  box-shadow: 0 5px 15px rgba(115, 84, 245, 0.2);
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Inputs and text */
+.post-form textarea,
+.comment-form input,
+.auth-card input,
+.content input,
+.content textarea,
+.content select {
+  color: var(--sl-text);
+  background: #fff;
+  border-color: #dfe2ed;
+  border-radius: 11px;
+}
+
+.post-form textarea::placeholder,
+.comment-form input::placeholder,
+.content input::placeholder,
+.content textarea::placeholder {
+  color: #969caf;
+}
+
+.post-form textarea:focus,
+.comment-form input:focus,
+.auth-card input:focus {
+  border-color: var(--sl-primary);
+  outline: 3px solid rgba(115, 84, 245, 0.12);
+}
+
+.post-text,
+.community-post .post-text,
+.comment-content p {
+  color: #45495c;
+  line-height: 1.7;
+}
+
+.community-post .post-body > strong,
+.comment-content strong {
+  color: var(--sl-text);
+}
+
+/* Avatars */
+.avatar,
+.comment-avatar {
+  background: var(--sl-primary-light);
+  color: var(--sl-primary-dark);
+}
+
+/* Likes and comments */
+.like {
+  border: 1px solid #ddd6ff;
+  border-radius: 10px;
+  color: var(--sl-primary-dark);
+  background: #fff;
+}
+
+.like:hover {
+  background: var(--sl-primary-light);
+}
+
+.like.liked {
+  background: #fff0f4;
+  color: #df3f72;
+}
+
+.comments-section {
+  box-shadow: none;
+  border-radius: 12px;
+}
+
+/* Friend requests and user search */
+.friend-card:hover,
+.challenge:hover {
+  border-color: #d8d0ff;
+  box-shadow: 0 8px 24px rgba(31, 35, 70, 0.09);
+}
+
+.friend-card-info strong,
+.friend-card-info span {
+  overflow-wrap: anywhere;
+}
+
+.friend-btn {
+  border-radius: 9px;
+  font-weight: 600;
+}
+
+/* Notification panel */
+.notification-panel {
+  border-color: var(--sl-border);
+  border-radius: 16px;
+  color: var(--sl-text);
+}
+
+.notification-panel-header {
+  background: #fff;
+}
+
+.notification-item {
+  color: var(--sl-text);
+}
+
+.notification-item:hover {
+  background: #f5f2ff;
+}
+
+/* Smooth scrolling without forcing hidden page overflow */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive pages */
+@media (max-width: 650px) {
+  .content {
+    min-width: 0;
+  }
+
+  .post,
+  .community-post,
+  .post-form {
+    padding: 15px;
+  }
+
+  .section-title {
+    font-size: 19px;
+  }
+
+  .auth-card {
+    padding: 22px;
+  }
+}
+
+/* ===== SkillLoop Advanced UI Polish ===== */
+
+/* Smooth page transitions */
+.content {
+  animation: slFadeIn 0.25s ease;
+}
+
+@keyframes slFadeIn {
+  from {
+    opacity: 0.75;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Consistent cards */
+.post,
+.community-post,
+.post-form,
+.friend-card,
+.profile-card,
+.challenge,
+.auth-card {
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.post:hover,
+.community-post:hover,
+.friend-card:hover,
+.challenge:hover {
+  border-color: #ded7ff;
+  box-shadow: 0 10px 28px rgba(48, 35, 100, 0.08);
+}
+
+/* Better buttons */
+button:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* Better links */
+a {
+  color: #6546e8;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #4f32ca;
+}
+
+/* Consistent input styling */
+input,
+textarea,
+select {
+  max-width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #7354f5;
+}
+
+/* Cleaner scrollbars across pages */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d5d0e9 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #d5d0e9;
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Images stay within their cards */
+.post img,
+.community-post img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .content {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .post,
+  .community-post,
+  .post-form,
+  .friend-card {
+    border-radius: 14px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* SkillLoop Stories-style circles */
+.stories-section {
+  background: var(--sl-card, #fff);
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid var(--sl-border, #e6e8f0);
+  border-radius: 20px;
+  box-shadow: var(--sl-shadow, 0 6px 24px rgba(31,35,70,.06));
+}
+
+.stories-section .section-title {
+  margin: 0 0 18px;
+}
+
+.stories-list {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 5px 2px 12px;
+  scrollbar-width: none;
+}
+
+.stories-list::-webkit-scrollbar {
+  display: none;
+}
+
+.story-item {
+  display: flex;
+  flex: 0 0 76px;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: var(--sl-text, #202136);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.story-ring {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  padding: 3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7354f5, #ed4a9b, #ffb347);
+  transition: transform 0.2s ease;
+}
+
+.story-ring:hover {
+  transform: scale(1.08);
+}
+
+.story-circle {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--sl-card, #fff);
+  border-radius: 50%;
+  background: var(--sl-primary-light, #eeeaff);
+  font-size: 27px;
+}
+
+.story-item span {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.story-ring.my-story {
+  background: linear-gradient(135deg, #18c8a5, #7354f5);
+}
+
+@media (max-width: 600px) {
+  .stories-section {
+    padding: 15px;
+  }
+
+  .stories-list {
+    gap: 16px;
+  }
+
+  .story-item {
+    flex-basis: 68px;
+  }
+
+  .story-ring {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* SkillLoop Modern Post Feed */
+.community-post {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 22px;
+  margin: 18px 0;
+  border: 1px solid var(--sl-border, #e6e8f0);
+  border-radius: 20px;
+  background: var(--sl-card, #fff);
+  box-shadow: 0 5px 20px rgba(31, 35, 70, 0.045);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.community-post:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(31, 35, 70, 0.09);
+}
+
+.community-post .avatar {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7354f5, #ed4a9b);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.community-post .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.community-post .post-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.community-post .post-body > strong {
+  display: block;
+  color: var(--sl-text, #202136);
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.community-post .muted {
+  margin: 5px 0 14px;
+  color: var(--sl-muted, #697086);
+  font-size: 12px;
+}
+
+.community-post .post-text {
+  margin: 0 0 18px;
+  color: var(--sl-text, #202136);
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.community-post .likes-area {
+  padding: 12px 0;
+  border-top: 1px solid var(--sl-border, #e6e8f0);
+  border-bottom: 1px solid var(--sl-border, #e6e8f0);
+}
+
+.community-post .like {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: #f2f0ff;
+  color: #7354f5;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.community-post .like:hover {
+  background: #e6e0ff;
+  transform: scale(1.03);
+}
+
+.community-post .like.liked {
+  background: #ffe9ef;
+  color: #e54862;
+}
+
+.community-post .comments-section {
+  margin-top: 16px;
+  padding-top: 5px;
+}
+
+.community-post .comments-section h4 {
+  margin-bottom: 14px;
+  color: var(--sl-text, #202136);
+}
+
+.community-post .comment-item {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.community-post .comment-content {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 13px;
+  border-radius: 13px;
+  background: var(--sl-bg, #f5f6fb);
+}
+
+.community-post .comment-content p {
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
+
+.community-post .comment-content span {
+  color: var(--sl-muted, #697086);
+  font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .community-post {
+    gap: 11px;
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .community-post .avatar {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .community-post .post-text {
+    font-size: 14px;
+  }
+}
+
+/* SkillLoop - Modern Notifications */
+.notifications-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 8px 0 30px;
+  box-sizing: border-box;
+}
+
+.notifications-page h2 {
+  margin-bottom: 8px;
+  color: var(--sl-text, #202136);
+}
+
+.notifications-page .notifications-subtitle {
+  margin-bottom: 22px;
+  color: var(--sl-muted, #697086);
+  font-size: 14px;
+}
+
+.notification-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 17px;
+  margin: 12px 0;
+  border: 1px solid var(--sl-border, #e6e8f0);
+  border-radius: 17px;
+  background: var(--sl-card, #fff);
+  box-shadow: 0 4px 15px rgba(31, 35, 70, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(31, 35, 70, 0.08);
+}
+
+.notification-card.unread {
+  border-color: #c9bdff;
+  background: linear-gradient(110deg, #f5f2ff, #fff);
+}
+
+.notification-icon {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--sl-primary-light, #eeeaff);
+  font-size: 21px;
+}
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+  color: var(--sl-text, #202136);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.notification-content p {
+  margin: 4px 0;
+}
+
+.notification-content small {
+  color: var(--sl-muted, #697086);
+  font-size: 12px;
+}
+
+.notification-card .unread-dot {
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: #7354f5;
+}
+
+.notifications-empty {
+  padding: 35px 20px;
+  border: 1px dashed var(--sl-border, #e6e8f0);
+  border-radius: 18px;
+  color: var(--sl-muted, #697086);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .notification-card {
+    gap: 10px;
+    padding: 13px;
+    border-radius: 14px;
+  }
+
+  .notification-icon {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
+
+/* Notifications UI polish */
+.notification-panel.notifications-page {
+  width: min(390px, calc(100vw - 32px));
+  max-width: 390px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--sl-border, #e6e8f0);
+  border-radius: 20px;
+  background: var(--sl-card, #fff);
+  box-shadow: 0 16px 45px rgba(31, 35, 70, 0.16);
+}
+
+.notifications-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.notifications-heading strong {
+  color: var(--sl-text, #202136);
+  font-size: 18px;
+}
+
+.notifications-heading small {
+  color: var(--sl-muted, #697086);
+  font-size: 12px;
+}
+
+.notification-panel .notification-panel-header {
+  padding: 17px;
+  border-bottom: 1px solid var(--sl-border, #e6e8f0);
+}
+
+.notification-panel .notification-list {
+  max-height: 420px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.notification-panel .notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  border-bottom: 1px solid var(--sl-border, #e6e8f0);
+  background: var(--sl-card, #fff);
+  color: var(--sl-text, #202136);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.notification-panel .notification-item:hover {
+  background: var(--sl-bg, #f5f6fb);
+}
+
+.notification-panel .notification-item.unread {
+  background: #f3f0ff;
+}
+
+.notification-panel .notification-item.unread:hover {
+  background: #eae5ff;
+}
+
+.notification-panel .notification-item-icon {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--sl-primary-light, #eeeaff);
+  color: var(--sl-primary, #7354f5);
+}
+
+.notification-panel .notification-item-body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  overflow-wrap: anywhere;
+}
+
+.notification-panel .notification-item-body strong {
+  font-size: 13px;
+}
+
+.notification-panel .notification-item-body > span {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.notification-panel .notification-item-body small {
+  color: var(--sl-muted, #697086);
+  font-size: 11px;
+}
+
+.notification-panel .notification-unread-dot {
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--sl-primary, #7354f5);
+}
+
+.notification-panel .notifications-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 28px 18px;
+  margin: 0;
+  text-align: center;
+}
+
+.notifications-empty-icon {
+  font-size: 30px;
+}
+
+.notifications-empty strong {
+  color: var(--sl-text, #202136);
+}
+
+.notifications-empty > span:last-child {
+  color: var(--sl-muted, #697086);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .notification-panel.notifications-page {
+    width: calc(100vw - 24px);
+    max-width: none;
+  }
+
+  .notification-panel .notification-list {
+    max-height: 60vh;
+  }
+}
+
+/* SkillLoop Dark Mode */
+.app.dark-mode {
+  --sl-bg: #11131b;
+  --sl-card: #1b1e2a;
+  --sl-text: #f1f2f8;
+  --sl-muted: #a5abc0;
+  --sl-border: #303447;
+  --sl-primary-light: #302950;
+  background: var(--sl-bg);
+  color: var(--sl-text);
+}
+
+.app.dark-mode .content,
+.app.dark-mode .topbar,
+.app.dark-mode .stories-section,
+.app.dark-mode .post-form,
+.app.dark-mode .community-post,
+.app.dark-mode .challenge,
+.app.dark-mode .profile-card,
+.app.dark-mode .friend-card,
+.app.dark-mode .chat-window,
+.app.dark-mode .chat-sidebar,
+.app.dark-mode .notification-panel {
+  background-color: var(--sl-card);
+  color: var(--sl-text);
+  border-color: var(--sl-border);
+}
+
+.app.dark-mode h1,
+.app.dark-mode h2,
+.app.dark-mode h3,
+.app.dark-mode h4,
+.app.dark-mode strong,
+.app.dark-mode .post-text,
+.app.dark-mode .comment-content p {
+  color: var(--sl-text);
+}
+
+.app.dark-mode input,
+.app.dark-mode textarea,
+.app.dark-mode select {
+  background: #242838;
+  color: var(--sl-text);
+  border-color: var(--sl-border);
+}
+
+.app.dark-mode input::placeholder,
+.app.dark-mode textarea::placeholder {
+  color: #a5abc0;
+}
+
+.app.dark-mode .comment-content,
+.app.dark-mode .notification-panel .notification-item {
+  background: var(--sl-card);
+  color: var(--sl-text);
+}
+
+.app.dark-mode .notification-panel .notification-item.unread {
+  background: #302950;
+}
+
+.app.dark-mode .story-circle {
+  background: #302950;
+  border-color: var(--sl-card);
+}
+
+.app.dark-mode .sidebar {
+  background: #171925;
+  color: var(--sl-text);
+}
+
+.app.dark-mode .nav {
+  color: #d8daea;
+}
+
+.app.dark-mode .nav.active {
+  background: #302950;
+  color: #c6b8ff;
+}
+
+.app.dark-mode .hero {
+  color: white;
+}
+
+/* SkillLoop theme toggle */
+.nav.theme-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.app.dark-mode {
+  background: var(--sl-bg, #11131b);
+  color: var(--sl-text, #f1f2f8);
+}
+
+.app.dark-mode .content {
+  background: var(--sl-bg, #11131b);
+  color: var(--sl-text, #f1f2f8);
+}
+
+.app.dark-mode .topbar,
+.app.dark-mode .stories-section,
+.app.dark-mode .post-form,
+.app.dark-mode .community-post,
+.app.dark-mode .challenge,
+.app.dark-mode .profile-card,
+.app.dark-mode .friend-card,
+.app.dark-mode .chat-window,
+.app.dark-mode .chat-sidebar {
+  background: var(--sl-card, #1b1e2a);
+  color: var(--sl-text, #f1f2f8);
+  border-color: var(--sl-border, #303447);
+}
+
+.app.dark-mode .section-title,
+.app.dark-mode .post-body strong,
+.app.dark-mode .comment-content strong,
+.app.dark-mode .comments-section h4 {
+  color: var(--sl-text, #f1f2f8);
+}
+
+.app.dark-mode .muted,
+.app.dark-mode .side-note {
+  color: var(--sl-muted, #a5abc0);
+}
+
+.app.dark-mode .comment-content {
+  background: #242838;
+  color: var(--sl-text, #f1f2f8);
+}
+
+.app.dark-mode .notification-panel {
+  background: var(--sl-card, #1b1e2a);
+  border-color: var(--sl-border, #303447);
+}
+
+.app.dark-mode .notification-item {
+  color: var(--sl-text, #f1f2f8);
+}
+
+.app.dark-mode .notification-item.unread {
+  background: #302950;
+}
+
+.app.dark-mode .story-circle {
+  background: #302950;
+  border-color: var(--sl-card, #1b1e2a);
+}
+
+.app.dark-mode input,
+.app.dark-mode textarea,
+.app.dark-mode select {
+  background: #242838;
+  color: var(--sl-text, #f1f2f8);
+  border-color: var(--sl-border, #303447);
+}
+
+.app.dark-mode input::placeholder,
+.app.dark-mode textarea::placeholder {
+  color: #a5abc0;
+}
+
+/* SkillLoop Profile Dropdown */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.profile-dropdown {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.profile-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 12px 8px 8px;
+  border: 1px solid var(--sl-border, #e6e8f0);
+  border-radius: 15px;
+  background: var(--sl-card, #fff);
+  color: var(--sl-text, #202136);
+  cursor: pointer;
+}
+
+.profile-menu-avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7354f5, #ed4a9b);
+  color: white;
+  font-weight: 700;
+}
+
+.profile-menu-name {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  padding: 7px;
+  border: 1px solid var(--sl-border, #e6e8f0);
+  border-radius: 16px;
+  background: var(--sl-card, #fff);
+  box-shadow: 0 12px 35px rgba(31, 35, 70, 0.16);
+}
+
+.profile-dropdown-menu button {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--sl-text, #202136);
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-dropdown-menu button:hover {
+  background: var(--sl-primary-light, #eeeaff);
+}
+
+.profile-dropdown-menu .profile-menu-logout {
+  color: #e54862;
+}
+
+.app.dark-mode .profile-dropdown-trigger,
+.app.dark-mode .profile-dropdown-menu {
+  background: var(--sl-card, #1b1e2a);
+  color: var(--sl-text, #f1f2f8);
+  border-color: var(--sl-border, #303447);
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    align-items: flex-start;
+  }
+
+  .profile-menu-name {
+    display: none;
+  }
+
+  .profile-dropdown-trigger {
+    padding: 6px;
+  }
+
+  .profile-dropdown-menu {
+    width: 190px;
+  }
+}
+
+/* ===== SkillLoop Text Color Fix ===== */
+
+/* Light mode */
+.app {
+  color: #202136;
+}
+
+.app .content,
+.app .topbar,
+.app .section-title,
+.app .post-form,
+.app .community-post,
+.app .profile-dropdown-trigger,
+.app .profile-dropdown-menu {
+  color: #202136;
+}
+
+.app input,
+.app textarea,
+.app select {
+  color: #202136;
+}
+
+.app input::placeholder,
+.app textarea::placeholder {
+  color: #73778a;
+  opacity: 1;
+}
+
+/* Dark mode: main text */
+.app.dark-mode,
+.app.dark-mode .content,
+.app.dark-mode .topbar,
+.app.dark-mode .section-title,
+.app.dark-mode .post-form,
+.app.dark-mode .community-post,
+.app.dark-mode .profile-dropdown-trigger,
+.app.dark-mode .profile-dropdown-menu,
+.app.dark-mode .profile-dropdown-menu button {
+  color: #f1f2f8;
+}
+
+/* Dark mode: paragraph and secondary text */
+.app.dark-mode p,
+.app.dark-mode .muted,
+.app.dark-mode .post-text,
+.app.dark-mode .profile-menu-name,
+.app.dark-mode .comment-content,
+.app.dark-mode .topbar p {
+  color: #c4c8d8;
+}
+
+/* Dark mode: headings */
+.app.dark-mode h1,
+.app.dark-mode h2,
+.app.dark-mode h3,
+.app.dark-mode strong,
+.app.dark-mode label {
+  color: #f7f7ff;
+}
+
+/* Dark mode: input fields */
+.app.dark-mode input,
+.app.dark-mode textarea,
+.app.dark-mode select {
+  background: #242838;
+  color: #f1f2f8;
+  border-color: #41465b;
+}
+
+.app.dark-mode input::placeholder,
+.app.dark-mode textarea::placeholder {
+  color: #b0b5c9;
+  opacity: 1;
+}
+
+/* Dark mode: dropdown hover */
+.app.dark-mode .profile-dropdown-menu button:hover {
+  background: #302950;
+  color: #ffffff;
+}
+
+/* Keep logout and danger text visible */
+.app.dark-mode .profile-dropdown-menu .profile-menu-logout {
+  color: #ff8295;
+}
+
+/* Links */
+.app.dark-mode a {
+  color: #b8a9ff;
+}
+
+/* Buttons with their own background */
+.app.dark-mode button {
+  color: inherit;
+}
+/* ===== Fix Chat Text Colors ===== */
+
+.app.dark-mode .chat-page,
+.app.dark-mode .chat-sidebar,
+.app.dark-mode .chat-window {
+  background: #1b1e2a !important;
+  color: #f1f2f8 !important;
+}
+
+.app.dark-mode .chat-sidebar h2,
+.app.dark-mode .chat-sidebar h3,
+.app.dark-mode .chat-sidebar strong,
+.app.dark-mode .chat-user,
+.app.dark-mode .chat-user strong,
+.app.dark-mode .chat-user-name,
+.app.dark-mode .chat-user-email,
+.app.dark-mode .chat-user p,
+.app.dark-mode .chat-user small,
+.app.dark-mode .chat-messages,
+.app.dark-mode .chat-messages p {
+  color: #e8eaf5 !important;
+}
+
+.app.dark-mode .chat-user .muted,
+.app.dark-mode .chat-user-preview,
+.app.dark-mode .chat-user small {
+  color: #b8bfd6 !important;
+}
+
+/* Chat messages */
+.app.dark-mode .chat-bubble {
+  color: #f5f6ff !important;
+}
+
+/* Right notification area */
+.app.dark-mode .notification-widget {
+  color: #f1f2f8;
+}
+
+.app.dark-mode .notification-bell {
+  background: #242838 !important;
+  color: #f1f2f8 !important;
+  border-color: #41465b !important;
+}
+
+/* Chat input */
+.app.dark-mode .chat-composer input,
+.app.dark-mode .chat-composer textarea {
+  background: #242838 !important;
+  color: #f1f2f8 !important;
+  border-color: #41465b !important;
+}
+
+.app.dark-mode .chat-composer input::placeholder,
+.app.dark-mode .chat-composer textarea::placeholder {
+  color: #b8bfd6 !important;
+}
+
+/* ===== SkillLoop Friends Page: Dark Mode Fix ===== */
+
+.app.dark-mode .content .friend-card,
+.app.dark-mode .content .friends-section,
+.app.dark-mode .content .friends-list,
+.app.dark-mode .content .friend-requests,
+.app.dark-mode .content .discover-people,
+.app.dark-mode .content .friends-container {
+  background: #1b1e2a !important;
+  color: #f1f2f8 !important;
+  border-color: #34384b !important;
+}
+
+/* Section headings and descriptions */
+.app.dark-mode .content h1,
+.app.dark-mode .content h2,
+.app.dark-mode .content h3,
+.app.dark-mode .content h4,
+.app.dark-mode .content p,
+.app.dark-mode .content label,
+.app.dark-mode .content strong,
+.app.dark-mode .content small {
+  color: #f1f2f8;
+}
+
+/* Friend request and user cards */
+.app.dark-mode .content [class*="friend"],
+.app.dark-mode .content [class*="discover"] {
+  border-color: #34384b;
+}
+
+.app.dark-mode .content input,
+.app.dark-mode .content textarea,
+.app.dark-mode .content select {
+  background: #242838 !important;
+  color: #f1f2f8 !important;
+  border-color: #41465b !important;
+}
+
+.app.dark-mode .content input::placeholder {
+  color: #b8bfd6 !important;
+  opacity: 1;
+}
+
+/* Secondary descriptions */
+.app.dark-mode .content .muted {
+  color: #b8bfd6 !important;
+}
+
+/* Keep accept/reject buttons readable */
+.app.dark-mode .content button {
+  color: inherit;
+}
+
+.app.dark-mode .content button[class*="accept"],
+.app.dark-mode .content button[class*="primary"] {
+  color: #ffffff;
+}
+
+/* ===== Friends Page Final Dark Mode Polish ===== */
+
+/* Friends page cards */
+.app.dark-mode .content .friend-card,
+.app.dark-mode .content [class*="request"],
+.app.dark-mode .content [class*="friends"],
+.app.dark-mode .content [class*="discover"] {
+  background-color: #1b1e2a;
+  color: #f1f2f8;
+  border-color: #34384b;
+}
+
+/* Friend names and headings */
+.app.dark-mode .content h1,
+.app.dark-mode .content h2,
+.app.dark-mode .content h3,
+.app.dark-mode .content h4,
+.app.dark-mode .content strong {
+  color: #f7f7ff;
+}
+
+/* Emails, descriptions and previews */
+.app.dark-mode .content small,
+.app.dark-mode .content p {
+  color: #c4c8d8;
+}
+
+/* Search box */
+.app.dark-mode .content input,
+.app.dark-mode .content input[type="text"],
+.app.dark-mode .content input[type="search"] {
+  background-color: #242838 !important;
+  color: #f7f7ff !important;
+  border: 1px solid #41465b !important;
+}
+
+.app.dark-mode .content input::placeholder {
+  color: #b8bfd6 !important;
+  opacity: 1;
+}
+
+/* Buttons */
+.app.dark-mode .content button {
+  color: #f1f2f8;
+}
+
+.app.dark-mode .content button[class*="accept"],
+.app.dark-mode .content button[class*="message"] {
+  color: #ffffff;
+}
+
+/* Keep white avatar circles and icon contrast */
+.app.dark-mode .content .friend-avatar {
+  color: #7354f5;
+}
+
+.friend-avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #eeeaff;
+  color: #6741f5;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.friend-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.friend-avatar span {
+  color: inherit;
+}
+
+.app.dark-mode .friend-avatar {
+  background: #302950;
+  color: #d8ceff;
+}
+
+/* ===== SkillLoop Responsive Improvements ===== */
+
+.app,
+.app .content {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.app *,
+.app *::before,
+.app *::after {
+  box-sizing: border-box;
+}
+
+.app img {
+  max-width: 100%;
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+  .app {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .app .content {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .app .topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .app .hero {
+    padding: 22px 18px;
+  }
+
+  .app .stories-list {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .app .post-form,
+  .app .community-post,
+  .app .friends-section,
+  .app .friend-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .app .friend-card {
+    flex-wrap: wrap;
+  }
+
+  .app .friend-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .app .chat-page {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    min-height: 70vh;
+  }
+
+  .app .chat-sidebar {
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .app .chat-window {
+    min-height: 400px;
+    min-width: 0;
+  }
+
+  .app .chat-messages {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  .app .content {
+    padding: 12px;
+  }
+
+  .app .topbar h1 {
+    font-size: 21px;
+  }
+
+  .app .section-title {
+    font-size: 18px;
+  }
+
+  .app .friend-card {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .app .profile-dropdown-menu {
+    right: 0;
+    max-width: calc(100vw - 32px);
+  }
+}
+
+/* ===== Interactive SkillLoop Stories ===== */
+
+.stories-list {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 8px 3px 14px;
+}
+
+.story-item {
+  flex: 0 0 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--sl-text, #202136);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.story-ring {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #7354f5, #f04b9b, #ffb347);
+  transition: transform 0.2s ease;
+}
+
+.story-item:hover .story-ring {
+  transform: scale(1.08);
+}
+
+.story-circle {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--sl-card, #fff);
+  border-radius: 50%;
+  background: var(--sl-primary-light, #eeeaff);
+  font-size: 28px;
+}
+
+.app.dark-mode .story-item {
+  color: #f1f2f8;
+}
+
+/* Full-screen story viewer */
+.story-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(9, 10, 20, 0.82);
+  backdrop-filter: blur(5px);
+}
+
+.story-viewer {
+  position: relative;
+  width: min(100%, 390px);
+  min-height: 560px;
+  max-height: 90dvh;
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #7354f5, #36216d 60%, #17172c);
+  color: #ffffff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.story-progress {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 55px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.story-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #ffffff;
+}
+
+.story-close {
+  position: absolute;
+  top: 27px;
+  right: 18px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.story-viewer-content {
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px;
+  text-align: center;
+}
+
+.story-big-emoji {
+  margin-bottom: 24px;
+  font-size: 90px;
+}
+
+.story-viewer-content h2,
+.story-viewer-content p {
+  color: #ffffff;
+}
+
+.story-viewer-content p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.story-done {
+  margin-top: 22px;
+  padding: 11px 28px;
+  border: 0;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #4c35bd;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .story-viewer {
+    min-height: 70dvh;
+  }
+
+  .story-viewer-content {
+    min-height: 70dvh;
+    padding: 24px;
+  }
+}
+
+/* Story navigation buttons */
+.story-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.story-navigation button {
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.story-navigation button:hover {
+  background: rgba(255, 255, 255, 0.28);
+}

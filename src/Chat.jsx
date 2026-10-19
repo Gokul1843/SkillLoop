@@ -18,6 +18,7 @@ import {
     deleteDoc
 } from "firebase/firestore";
 import { auth, db } from "./firebase/firebase";
+import { createNotification } from "./notifications";
 import { Send, MessageCircle, ArrowLeft, Pencil, Trash2, Check, X, MoreVertical, Image } from "lucide-react";
 
 export default function Chat() {
@@ -138,11 +139,12 @@ export default function Chat() {
                             setChatPreviews((previous) => ({
                                 ...previous,
                                 [otherUserId]: {
+                                    ...previous[otherUserId],
                                     chatId,
                                     text: latestMessage?.text || "",
                                     senderId: latestMessage?.senderId || "",
-                                    createdAt: latestMessage?.createdAt || null
-                                }
+                                    createdAt: latestMessage?.createdAt || null,
+                                },
                             }));
                         },
                         (error) => {
@@ -263,6 +265,21 @@ export default function Chat() {
                         ...item.data()
                     }))
                 );
+
+
+                snapshot.docs.forEach((messageDoc) => {
+                    const message = messageDoc.data();
+
+                    // Sirf doosre user ke unseen messages ko seen mark karo
+                    if (message.senderId !== user.uid && message.seen === false) {
+                        updateDoc(messageDoc.ref, {
+                            seen: true
+                        }).catch((error) => {
+                            console.error("Seen status update error:", error);
+                        });
+                    }
+                });
+
             },
             (err) => {
                 console.error(err);
@@ -399,6 +416,18 @@ export default function Chat() {
             await updateDoc(doc(db, "chats", selectedUser.chatId), {
                 [`unreadCounts.${selectedUser.id}`]: increment(1),
             });
+            try {
+                await createNotification({
+                    recipientId: selectedUser.id,
+                    actorId: user.uid,
+                    actorName: user.displayName || user.email || "SkillLoop user",
+                    type: "message",
+                    message: "sent you an image.",
+                    targetId: selectedUser.chatId,
+                });
+            } catch (notificationError) {
+                console.error("Image message notification failed:", notificationError);
+            }
 
             URL.revokeObjectURL(imagePreview.url);
             setImagePreview(null);
@@ -447,6 +476,18 @@ export default function Chat() {
             await updateDoc(doc(db, "chats", selectedUser.chatId), {
                 [`unreadCounts.${selectedUser.id}`]: increment(1)
             });
+            try {
+                await createNotification({
+                    recipientId: selectedUser.id,
+                    actorId: user.uid,
+                    actorName: user.displayName || user.email || "SkillLoop user",
+                    type: "message",
+                    message: "sent you a message.",
+                    targetId: selectedUser.chatId,
+                });
+            } catch (notificationError) {
+                console.error("Message notification failed:", notificationError);
+            }
 
             setMessageText("");
 
@@ -469,7 +510,7 @@ export default function Chat() {
                 <h2><MessageCircle size={22} /> Messages</h2>
 
                 {loadingUsers ? (
-                    <p>Users load ho rahe hain...</p>
+                    <p> loading...</p>
                 ) : users.length === 0 ? (
                     <p>Abhi koi doosra registered user nahi mila.</p>
                 ) : (

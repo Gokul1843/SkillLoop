@@ -9,9 +9,16 @@ import {
   Trophy,
   User,
   LogOut,
+  Moon,
+  Sun,
   Send,
   Heart,
-    MessageCircle
+  MessageCircle,
+  Users,
+  Bell,
+  UserCircle,
+  ChevronDown,
+  Settings,
 } from "lucide-react";
 
 
@@ -21,6 +28,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
   serverTimestamp,
   doc,
   getDoc,
@@ -28,12 +36,15 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import Chat from "./Chat";
+import Friends from "./Friends";
+import Notifications from "./Notifications.jsx";
+import { createNotification } from "./notifications";
 import { signOut } from "firebase/auth";
 import { auth, db } from "./firebase/firebase";
 import "./App.css";
 
 
-function PostLikes({ postId, userId }) {
+function PostLikes({ postId, userId, authorId, actorName }) {
   const [count, setCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -76,6 +87,20 @@ function PostLikes({ postId, userId }) {
         await setDoc(myLikeRef, {
           createdAt: serverTimestamp(),
         });
+        if (authorId && authorId !== userId) {
+          try {
+            await createNotification({
+              recipientId: authorId,
+              actorId: userId,
+              actorName,
+              type: "like",
+              message: "liked your post.",
+              targetId: postId,
+            });
+          } catch (notificationError) {
+            console.error("Like notification failed:", notificationError);
+          }
+        }
       }
     } catch (err) {
       setError(err.message);
@@ -105,7 +130,7 @@ function PostLikes({ postId, userId }) {
 }
 
 
-function PostComments({ postId, user }) {
+function PostComments({ postId, postAuthorId, user }) {
   const [commentProfiles, setCommentProfiles] = useState({});
   const [comments, setComments] = useState([]);
   const [text, setText] = useState("");
@@ -114,74 +139,74 @@ function PostComments({ postId, user }) {
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
 
-// Effect 1: Load comment profiles
-useEffect(() => {
-  if (comments.length === 0) {
-    setCommentProfiles({});
-    return;
-  }
+  // Effect 1: Load comment profiles
+  useEffect(() => {
+    if (comments.length === 0) {
+      setCommentProfiles({});
+      return;
+    }
 
-  let cancelled = false;
+    let cancelled = false;
 
-  async function loadCommentProfiles() {
-    try {
-      const userIds = [
-        ...new Set(
-          comments.map((comment) => comment.authorId).filter(Boolean)
-        ),
-      ];
+    async function loadCommentProfiles() {
+      try {
+        const userIds = [
+          ...new Set(
+            comments.map((comment) => comment.authorId).filter(Boolean)
+          ),
+        ];
 
-      const results = await Promise.all(
-        userIds.map(async (uid) => {
-          const profileDoc = await getDoc(doc(db, "users", uid));
+        const results = await Promise.all(
+          userIds.map(async (uid) => {
+            const profileDoc = await getDoc(doc(db, "users", uid));
 
-          return [
-            uid,
-            profileDoc.exists() ? profileDoc.data() : {},
-          ];
-        })
-      );
+            return [
+              uid,
+              profileDoc.exists() ? profileDoc.data() : {},
+            ];
+          })
+        );
 
-      if (!cancelled) {
-        setCommentProfiles(Object.fromEntries(results));
+        if (!cancelled) {
+          setCommentProfiles(Object.fromEntries(results));
+        }
+      } catch (error) {
+        console.error("Could not load comment profiles:", error);
       }
-    } catch (error) {
-      console.error("Could not load comment profiles:", error);
     }
-  }
 
-  loadCommentProfiles();
+    loadCommentProfiles();
 
-  return () => {
-    cancelled = true;
-  };
-}, [comments]);
+    return () => {
+      cancelled = true;
+    };
+  }, [comments]);
 
-// Effect 2: Listen for comments
-useEffect(() => {
-  const commentsQuery = query(
-    collection(db, "posts", postId, "comments"),
-    orderBy("createdAt", "asc")
-  );
+  // Effect 2: Listen for comments
+  useEffect(() => {
+    const commentsQuery = query(
+      collection(db, "posts", postId, "comments"),
+      orderBy("createdAt", "asc")
+    );
 
-  const unsubscribe = onSnapshot(
-    commentsQuery,
-    (snapshot) => {
-      setComments(
-        snapshot.docs.map((item) => ({
-          id: item.id,
-          ...item.data(),
-        }))
-      );
-      setLoading(false);
-    },
-    (err) => {
-      setError("Could not load comments: " + err.message);
-      setLoading(false);
-    }
-  );
-  return unsubscribe;
-}, [postId]);
+    const unsubscribe = onSnapshot(
+      commentsQuery,
+      (snapshot) => {
+        setComments(
+          snapshot.docs.map((item) => ({
+            id: item.id,
+            ...item.data(),
+          }))
+        );
+        setLoading(false);
+      },
+      (err) => {
+        setError("Could not load comments: " + err.message);
+        setLoading(false);
+      }
+    );
+    return unsubscribe;
+  }, [postId]);
 
   async function submitComment(e) {
     e.preventDefault();
@@ -204,6 +229,20 @@ useEffect(() => {
       );
 
       setText("");
+      if (postAuthorId && postAuthorId !== user.uid) {
+        try {
+          await createNotification({
+            recipientId: postAuthorId,
+            actorId: user.uid,
+            actorName: user.displayName || user.email || "SkillLoop user",
+            type: "comment",
+            message: "commented on your post.",
+            targetId: postId,
+          });
+        } catch (notificationError) {
+          console.error("Comment notification failed:", notificationError);
+        }
+      }
     } catch (err) {
       setError("Comment failed: " + err.message);
     } finally {
@@ -304,7 +343,16 @@ useEffect(() => {
 
 
 
+
 export default function Home({ user }) {
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("skillloop-theme") === "dark"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("skillloop-theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [active, setActive] = useState("Home");
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
@@ -312,6 +360,84 @@ export default function Home({ user }) {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [profiles, setProfiles] = useState({});
+
+  const [activeStory, setActiveStory] = useState(null);
+  useEffect(() => {
+    if (!activeStory) return;
+
+    const timer = setTimeout(() => {
+      setActiveStory((current) => {
+        if (!current) return null;
+
+        const index = stories.findIndex(
+          (story) => story.id === current.id
+        );
+
+        if (index === stories.length - 1) {
+          return null;
+        }
+
+        return stories[index + 1];
+      });
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [activeStory]);
+
+  const stories = [
+    {
+      id: "art",
+      title: "Art 🎨",
+      emoji: "🎨",
+      description: "Creativity has no limits. Share your art and let your imagination shine!"
+    },
+    {
+      id: "coding",
+      title: "Coding 💻",
+      emoji: "💻",
+      description: "Write your first line of code today. Every expert started as a beginner!"
+    },
+    {
+      id: "learning",
+      title: "Learning 📚",
+      emoji: "📚",
+      description: "Learn something new every day. Small steps lead to big achievements!"
+    },
+    {
+      id: "design",
+      title: "Design 📸",
+      emoji: "📸",
+      description: "Turn your ideas into beautiful designs. Create something unique!"
+    },
+    {
+      id: "ideas",
+      title: "Ideas 🚀",
+      emoji: "🚀",
+      description: "Every great project starts with one idea. What will you create?"
+    },
+    {
+      id: "skills",
+      title: "Skills 🎯",
+      emoji: "🎯",
+      description: "Practice your skills, challenge yourself, and keep growing!"
+    }
+  ];
+
+  function showNextStory() {
+    setActiveStory((current) => {
+      if (!current) return null;
+      const index = stories.findIndex((story) => story.id === current.id);
+      return stories[(index + 1) % stories.length];
+    });
+  }
+
+  function showPreviousStory() {
+    setActiveStory((current) => {
+      if (!current) return null;
+      const index = stories.findIndex((story) => story.id === current.id);
+      return stories[(index - 1 + stories.length) % stories.length];
+    });
+  }
 
 
 
@@ -416,9 +542,52 @@ export default function Home({ user }) {
       setMessage("Logout failed: " + error.message);
     }
   }
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [friendRequestCount, setFriendRequestCount] = useState(0);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
+
+
+  useEffect(() => {
+    if (!user?.uid) {
+      setUnreadMessagesCount(0);
+      return;
+    }
+
+    const chatsQuery = query(
+      collection(db, "chats"),
+      where("participants", "array-contains", user.uid)
+    );
+
+    const unsubscribe = onSnapshot(
+      chatsQuery,
+      (snapshot) => {
+        const total = snapshot.docs.reduce((sum, chatDoc) => {
+          const unread = Number(
+            chatDoc.data().unreadCounts?.[user.uid] || 0
+          );
+
+          return sum + unread;
+        }, 0);
+
+        setUnreadMessagesCount(total);
+      },
+      (error) => {
+        console.error("Unread messages listener error:", error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user?.uid]);
+
 
   return (
-    <div className="app">
+    <div className={darkMode ? "app dark-mode" : "app"}>
+      <Notifications
+        user={user}
+        onNavigate={setActive}
+        onUnreadCountChange={setUnreadCount}
+      />
+
       <aside className="sidebar">
         <h2 className="logo">
           Skill<span>Loop</span>
@@ -428,9 +597,11 @@ export default function Home({ user }) {
 
           ["Home", HomeIcon],
           ["Explore", Compass],
+          ["Friends", Users],
           ["Challenges", Trophy],
           ["Messages", MessageCircle],
           ["Profile", User],
+          ["Notifications", Bell],
         ].map(([name, Icon]) => (
           <button
             key={name}
@@ -438,42 +609,214 @@ export default function Home({ user }) {
             onClick={() => setActive(name)}
           >
             <Icon size={20} />
-            {name}
+
+            <span>{name}</span>
+
+            {name === "Notifications" && unreadCount > 0 && (
+              <span className="notification-badge">
+                {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
+
+            )}
+
+            {name === "Friends" && friendRequestCount > 0 && (
+              <span className="notification-badge">
+                {friendRequestCount > 99 ? "99+" : friendRequestCount}
+              </span>
+            )}
+
+            {name === "Messages" && unreadMessagesCount > 0 && (
+              <span className="notification-badge">
+                {unreadMessagesCount > 99 ? "99+" : unreadMessagesCount}
+              </span>
+            )}
+
+
+
           </button>
         ))}
+
+
+        <button
+          type="button"
+          className="nav theme-toggle"
+          onClick={() => setDarkMode((current) => !current)}
+          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          aria-pressed={darkMode}
+        >
+          {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+        </button>
 
         <button className="nav logout" onClick={logout}>
           <LogOut size={20} />
           Logout
         </button>
+
         <p className="side-note">Learn. Create. Grow.</p>
       </aside>
 
       <main className="content">
 
-{active !== "Messages" && (
-  <header className="topbar">
-    <div>
-      <h1>
-        {active === "Home" ? "Welcome to SkillLoop!" : active}
-      </h1>
-      <p>Hello, {user.email || "Creator"} 👋</p>
-    </div>
-  </header>
-)}
+
+        {active !== "Messages" && (
+          <header className="topbar">
+            <div>
+              <h1>
+                {active === "Home" ? "Welcome to SkillLoop!" : active}
+              </h1>
+              <p>
+                Hello, {user.displayName || user.email?.split("@")[0] || "User"} 👋
+              </p>
+            </div>
+
+            <div className="profile-dropdown">
+              <button
+                type="button"
+                className="profile-dropdown-trigger"
+                onClick={() => setProfileMenuOpen((open) => !open)}
+                aria-expanded={profileMenuOpen}
+                aria-label="Open profile menu"
+              >
+                <span className="profile-menu-avatar">
+                  {(user.displayName || user.email || "U")
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase()}
+                </span>
+                <span className="profile-menu-name">
+                  {user.displayName || user.email?.split("@")[0] || "User"}
+                </span>
+                <ChevronDown size={16} />
+              </button>
+
+              {profileMenuOpen && (
+                <div className="profile-dropdown-menu">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActive("Profile");
+                      setProfileMenuOpen(false);
+                    }}
+                  >
+                    <UserCircle size={18} />
+                    My Profile
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDarkMode((current) => !current);
+                      setProfileMenuOpen(false);
+                    }}
+                  >
+                    {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                    {darkMode ? "Light Mode" : "Dark Mode"}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="profile-menu-logout"
+                    onClick={() => {
+                      setProfileMenuOpen(false);
+                      logout();
+                    }}
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          </header>
+        )}
+
 
 
         {active === "Home" && (
           <>
-            <section className="hero">
-              <h2>Your next skill starts today.</h2>
-              <p>Learn something new. Share what you create.</p>
-              <button onClick={() => setActive("Challenges")}>
-                Explore challenges
-              </button>
+
+
+
+            <section className="stories-section">
+              <h2 className="section-title">✨ Discover & Create</h2>
+
+              <div className="stories-list">
+                {stories.map((story) => (
+                  <button
+                    type="button"
+                    className="story-item"
+                    key={story.id}
+                    onClick={() => setActiveStory(story)}
+                    aria-label={`Open ${story.title} story`}
+                  >
+                    <span className="story-ring">
+                      <span className="story-circle">{story.emoji}</span>
+                    </span>
+                    <span>{story.title.split(" ")[0]}</span>
+                  </button>
+                ))}
+              </div>
             </section>
 
+            {activeStory && (
+              <div
+                className="story-overlay"
+                onClick={() => setActiveStory(null)}
+              >
+                <section
+                  className="story-viewer"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label={`${activeStory.title} story`}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <div className="story-progress">
+                    <span />
+                  </div>
+
+                  <button
+                    type="button"
+                    className="story-close"
+                    onClick={() => setActiveStory(null)}
+                    aria-label="Close story"
+                  >
+                    ✕
+                  </button>
+
+                  <div className="story-viewer-content">
+                    <div className="story-big-emoji">
+                      {activeStory.emoji}
+                    </div>
+
+                    <h2>{activeStory.title}</h2>
+                    <p>{activeStory.description}</p>
+
+                    <div className="story-navigation">
+                      <button type="button" onClick={showPreviousStory}>
+                        ← Previous
+                      </button>
+
+                      <button type="button" onClick={showNextStory}>
+                        Next →
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="story-done"
+                      onClick={() => setActiveStory(null)}
+                    >
+                      Done
+                    </button>
+                  </div>
+                </section>
+              </div>
+            )}
+
+
             <h2 className="section-title">Create a post</h2>
+
 
             <form className="post-form" onSubmit={createPost}>
               <textarea
@@ -545,8 +888,8 @@ export default function Home({ user }) {
                   </p>
                   <p className="post-text">{post.text}</p>
 
-                  <PostLikes postId={post.id} userId={user.uid} />
-                  <PostComments postId={post.id} user={user} />
+                  <PostLikes postId={post.id} userId={user.uid} authorId={post.authorId} actorName={user.displayName || user.email || "SkillLoop user"} />
+                  <PostComments postId={post.id} postAuthorId={post.authorId} user={user} />
 
                 </div>
               </article>
@@ -573,8 +916,27 @@ export default function Home({ user }) {
         )}
 
 
-        {active === "Profile" && <Profile user={user} />}
+        {active === "Friends" && (
+          <Friends
+            user={user}
+            onOpenMessages={() => setActive("Messages")}
+            onIncomingCountChange={setFriendRequestCount}
+          />
+        )}
+
         {active === "Messages" && <Chat />}
+        {active === "Notifications" && (
+          <Notifications
+            user={user}
+            onNavigate={setActive}
+            onUnreadCountChange={setUnreadCount}
+          />
+        )}
+
+        {active === "Profile" && <Profile user={user} />}
+
+
+
       </main>
     </div >
   );
