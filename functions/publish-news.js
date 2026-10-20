@@ -98,6 +98,7 @@ async function main() {
   let failedFeeds = 0;
 
   for (const feedConfig of feeds) {
+    console.log(`Checking $DIL1...`);
     try {
       console.log(`Checking ${feedConfig.source}...`);
 
