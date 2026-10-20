@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   Send,
+  Search,
   Share2,
   Heart,
   MessageCircle,
@@ -359,10 +360,12 @@ export default function Home({ user }) {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [profiles, setProfiles] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedExplorePost, setSelectedExplorePost] = useState(null);
   const [highlightedPostId, setHighlightedPostId] = useState(null);
 
@@ -473,6 +476,8 @@ export default function Home({ user }) {
     return () => unsubscribe();
   }, []);
 
+
+
   useEffect(() => {
     if (posts.length === 0) {
       setProfiles({});
@@ -484,9 +489,12 @@ export default function Home({ user }) {
     async function loadProfiles() {
       try {
         const userIds = [
-          ...new Set(posts.map((post) => post.authorId).filter(Boolean)),
+          ...new Set(
+            posts
+              .map((post) => post.authorId)
+              .filter((uid) => uid && uid !== "skillloop-news")
+          ),
         ];
-
         const results = await Promise.all(
           userIds.map(async (uid) => {
             const profileDoc = await getDoc(doc(db, "users", uid));
@@ -536,6 +544,29 @@ export default function Home({ user }) {
     return () => window.clearTimeout(timer);
   }, [posts]);
 
+  const filteredPosts = posts.filter((post) => {
+    const term = searchTerm.trim().toLowerCase();
+    if (post.isNews) {
+      const expiry = post.expiresAt?.toDate?.();
+
+      if (!expiry || expiry.getTime() <= Date.now()) {
+        return false;
+      }
+    }
+
+    if (!term) return true;
+
+    const authorName =
+      profiles[post.authorId]?.displayName ||
+      post.authorEmail ||
+      "SkillLoop user";
+
+    return (
+      (post.text || "").toLowerCase().includes(term) ||
+      authorName.toLowerCase().includes(term)
+    );
+  });
+
   async function createPost(e) {
     e.preventDefault();
 
@@ -572,8 +603,6 @@ export default function Home({ user }) {
   const [unreadCount, setUnreadCount] = useState(0);
   const [friendRequestCount, setFriendRequestCount] = useState(0);
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
-
-
   useEffect(() => {
     if (!user?.uid) {
       setUnreadMessagesCount(0);
@@ -638,7 +667,6 @@ export default function Home({ user }) {
         onNavigate={setActive}
         onUnreadCountChange={setUnreadCount}
       />
-
       <aside className="sidebar">
         <h2 className="logo">
           Skill<span>Loop</span>
@@ -794,13 +822,8 @@ export default function Home({ user }) {
           </header>
         )}
 
-
-
         {active === "Home" && (
           <>
-
-
-
             <section className="stories-section">
               <h2 className="section-title">✨ Discover & Create</h2>
 
@@ -876,8 +899,6 @@ export default function Home({ user }) {
                 </section>
               </div>
             )}
-
-
             {/* Desktop create post form */}
             <div className="desktop-create-post">
               <h2 className="section-title">Create a post</h2>
@@ -987,7 +1008,29 @@ export default function Home({ user }) {
                 </section>
               </div>
             )}
+
             <h2 className="section-title">Community feed</h2>
+
+            <div className="feed-search">
+              <Search size={20} />
+
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search posts or users..."
+                aria-label="Search community posts"
+              />
+
+              {searchTerm && (
+                <button
+                  type="button"
+                  onClick={() => setSearchTerm("")}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
 
             {loading && <p>Loading posts...</p>}
 
@@ -995,16 +1038,17 @@ export default function Home({ user }) {
               <p>No posts yet. Be the first to share something!</p>
             )}
 
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
               <article
                 id={`post-${post.id}`}
                 className={`post community-post ${highlightedPostId === post.id ? "post-highlighted" : ""
                   }`}
                 key={post.id}
               >
-
                 <div className="avatar">
-                  {profiles[post.authorId]?.photoURL ? (
+                  {post.isNews ? (
+                    <span aria-label="SkillLoop News">📰</span>
+                  ) : profiles[post.authorId]?.photoURL ? (
                     <img
                       src={profiles[post.authorId].photoURL}
                       alt="Profile"
@@ -1017,11 +1061,11 @@ export default function Home({ user }) {
                     ).toUpperCase()
                   )}
                 </div>
-
-
                 <div className="post-body">
                   <strong>
-                    {profiles[post.authorId]?.displayName ||
+                    {post.isNews
+                      ? "SkillLoop News"
+                      : profiles[post.authorId]?.displayName ||
                       post.authorEmail ||
                       "SkillLoop user"}
                   </strong>
@@ -1032,6 +1076,15 @@ export default function Home({ user }) {
                       : "Just published"}
                   </p>
                   <p className="post-text">{post.text}</p>
+                  {post.isNews && post.articleUrl && (
+                    <a
+                      href={post.articleUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Read full news →
+                    </a>
+                  )}
 
                   <div className="post-actions">
                     <PostLikes
@@ -1062,18 +1115,13 @@ export default function Home({ user }) {
             ))}
           </>
         )}
-
-
         {active === "Explore" && (
           <section className="explore-page">
             <h2>Explore 🌎</h2>
-
             {loading && <p>Loading posts...</p>}
-
             {!loading && posts.length === 0 && (
               <p>No posts yet. Share something with the community!</p>
             )}
-
             <div className="explore-grid">
               {posts.map((post) => {
                 const imageUrl = post.imageUrl || post.image;
@@ -1114,7 +1162,6 @@ export default function Home({ user }) {
             </div>
           </section>
         )}
-
         {active === "Challenges" && (
           <section className="challenge">
             <div>
@@ -1123,8 +1170,6 @@ export default function Home({ user }) {
             </div>
           </section>
         )}
-
-
         {active === "Friends" && (
           <Friends
             user={user}
@@ -1132,7 +1177,6 @@ export default function Home({ user }) {
             onIncomingCountChange={setFriendRequestCount}
           />
         )}
-
         {active === "Messages" && <Chat />}
         {active === "Notifications" && (
           <Notifications
@@ -1144,14 +1188,14 @@ export default function Home({ user }) {
         {active === "Profile" && <Profile user={user} />}
 
         {/* Explore Post Viewer yahan paste karo */}
+
         {selectedExplorePost && (() => {
           const post = selectedExplorePost;
           const profile = profiles[post.authorId] || {};
-          const creatorName =
-            profile.displayName ||
-            profile.name ||
-            post.authorEmail ||
-            "SkillLoop Creator";
+          const authorName = post.isNews
+            ? "SkillLoop News"
+            : profile.displayName || post.authorEmail || "SkillLoop User";
+          const authorPhoto = profile.photoURL || "";
           const imageUrl = post.imageUrl || post.image;
 
           return (
@@ -1173,15 +1217,17 @@ export default function Home({ user }) {
 
                 <div className="explore-viewer-author">
                   <div className="explore-viewer-avatar">
-                    {profile.photoURL ? (
-                      <img src={profile.photoURL} alt={creatorName} />
+                    {post.isNews ? (
+                      "📰"
+                    ) : authorPhoto ? (
+                      <img src={authorPhoto} alt={authorName} />
                     ) : (
-                      (creatorName[0] || "U").toUpperCase()
+                      (authorName[0] || "U").toUpperCase()
                     )}
                   </div>
 
                   <div>
-                    <strong>{creatorName}</strong>
+                    <strong>{authorName}</strong>
                     <span>
                       {post.createdAt?.toDate
                         ? post.createdAt.toDate().toLocaleString()
@@ -1200,6 +1246,17 @@ export default function Home({ user }) {
 
                 <div className="explore-viewer-content">
                   <p>{post.text}</p>
+
+                  {post.isNews && post.articleUrl && (
+                    <a
+                      href={post.articleUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Read full news →
+                    </a>
+                  )}
+
                   <div className="post-actions">
                     <PostLikes
                       postId={post.id}
@@ -1228,8 +1285,6 @@ export default function Home({ user }) {
             </div>
           );
         })()}
-
-
       </main>
     </div >
   );
