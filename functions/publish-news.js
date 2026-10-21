@@ -5,26 +5,29 @@ const crypto = require("node:crypto");
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
+ 
 const feeds = [
   {
     language: "en",
-    source: "The Indian Express",
-    url: "https://indianexpress.com/section/north-east-india/assam/feed/",
-    host: "indianexpress.com",
+    source: "The Assam Tribune",
+    url: "https://assamtribune.com/feed",
+    host: "assamtribune.com",
+  },
+  {
+    language: "as",
+    source: "Northeast Now Assamese",
+    url: "https://assam.nenow.in/feed/",
+    host: "assam.nenow.in",
   },
   {
     language: "hi",
     source: "Amar Ujala",
     url: "https://www.amarujala.com/rss/assam.xml",
-    host: "amarujala.com",
-  },
-  {
-    language: "as",
-    source: "Asomiya Pratidin",
-    url: "https://asomiyapratidin.in/feed/rss/",
-    host: "asomiyapratidin.in",
+    host: "www.amarujala.com",
   },
 ];
+
+
 
 function cleanText(value) {
   if (typeof value !== "string") return "";
