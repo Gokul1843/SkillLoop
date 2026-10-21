@@ -5922,3 +5922,37 @@ body,
     overflow-wrap: anywhere;
   }
 }
+
+/* Fix English text overflow on mobile */
+@media (max-width: 600px) {
+  .post-body,
+  .post-text,
+  .news-card,
+  .news-card h3,
+  .news-card p,
+  .comment-content,
+  .comment-content p {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .post-text,
+  .news-card p,
+  .comment-content p {
+    white-space: pre-wrap;
+    line-height: 1.65;
+  }
+
+  .post-body img,
+  .news-card img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .content {
+    overflow-x: hidden;
+  }
+}
