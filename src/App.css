@@ -5856,3 +5856,69 @@ body,
   color: #2563eb;
   text-decoration: none;
 }
+
+/* Mobile-friendly SkillLoop news and community posts */
+@media (max-width: 600px) {
+  .content {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-actions {
+    gap: 12px !important;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .post-actions button,
+  .post-actions a {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-text {
+    overflow-wrap: anywhere;
+    word-break: normal;
+    white-space: pre-wrap;
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .news-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    margin: 0 0 12px;
+    border-radius: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .news-card h3 {
+    font-size: 17px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .news-card p {
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+
+  .news-card a,
+  .post-body > a {
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .post-body {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
