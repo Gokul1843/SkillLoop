@@ -5956,3 +5956,38 @@ body,
     overflow-x: hidden;
   }
 }
+
+/* Fix empty space in SkillLoop News posts */
+.post-body {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.post-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.post-text {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .post-body {
+    display: block;
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .post-text {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+}
