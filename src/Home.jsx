@@ -351,7 +351,6 @@ export default function Home({ user }) {
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("skillloop-theme") === "dark"
   );
-
   useEffect(() => {
     localStorage.setItem("skillloop-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
@@ -360,7 +359,6 @@ export default function Home({ user }) {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -824,80 +822,8 @@ export default function Home({ user }) {
 
         {active === "Home" && (
           <>
-            <section className="stories-section">
-              <h2 className="section-title">✨ Discover & Create</h2>
-
-              <div className="stories-list">
-                {stories.map((story) => (
-                  <button
-                    type="button"
-                    className="story-item"
-                    key={story.id}
-                    onClick={() => setActiveStory(story)}
-                    aria-label={`Open ${story.title} story`}
-                  >
-                    <span className="story-ring">
-                      <span className="story-circle">{story.emoji}</span>
-                    </span>
-                    <span>{story.title.split(" ")[0]}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            {activeStory && (
-              <div
-                className="story-overlay"
-                onClick={() => setActiveStory(null)}
-              >
-                <section
-                  className="story-viewer"
-                  role="dialog"
-                  aria-modal="true"
-                  aria-label={`${activeStory.title} story`}
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <div className="story-progress">
-                    <span />
-                  </div>
-
-                  <button
-                    type="button"
-                    className="story-close"
-                    onClick={() => setActiveStory(null)}
-                    aria-label="Close story"
-                  >
-                    ✕
-                  </button>
-
-                  <div className="story-viewer-content">
-                    <div className="story-big-emoji">
-                      {activeStory.emoji}
-                    </div>
-
-                    <h2>{activeStory.title}</h2>
-                    <p>{activeStory.description}</p>
-
-                    <div className="story-navigation">
-                      <button type="button" onClick={showPreviousStory}>
-                        ← Previous
-                      </button>
-
-                      <button type="button" onClick={showNextStory}>
-                        Next →
-                      </button>
-                    </div>
-
-                    <button
-                      type="button"
-                      className="story-done"
-                      onClick={() => setActiveStory(null)}
-                    >
-                      Done
-                    </button>
-                  </div>
-                </section>
-              </div>
+          
+           
             )}
             {/* Desktop create post form */}
             <div className="desktop-create-post">
