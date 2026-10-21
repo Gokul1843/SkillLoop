@@ -1,7 +1,5 @@
-
 import { useEffect, useState } from "react";
 import Profile from "./Profile";
-
 
 import {
   Home as HomeIcon,
@@ -14,7 +12,7 @@ import {
   Send,
   Search,
   Share2,
-  Heart,
+  ThumbsUp,
   MessageCircle,
   Users,
   Bell,
@@ -22,7 +20,6 @@ import {
   ChevronDown,
   Settings,
 } from "lucide-react";
-
 
 import {
   addDoc,
@@ -74,8 +71,9 @@ function PostLikes({ postId, userId, authorId, actorName }) {
     };
   }, [postId, userId]);
 
+
   async function toggleLike() {
-    if (busy) return;
+    if (busy || liked) return;
 
     setBusy(true);
     setError("");
@@ -83,25 +81,22 @@ function PostLikes({ postId, userId, authorId, actorName }) {
     const myLikeRef = doc(db, "posts", postId, "likes", userId);
 
     try {
-      if (liked) {
-        await deleteDoc(myLikeRef);
-      } else {
-        await setDoc(myLikeRef, {
-          createdAt: serverTimestamp(),
-        });
-        if (authorId && authorId !== userId) {
-          try {
-            await createNotification({
-              recipientId: authorId,
-              actorId: userId,
-              actorName,
-              type: "like",
-              message: "liked your post.",
-              targetId: postId,
-            });
-          } catch (notificationError) {
-            console.error("Like notification failed:", notificationError);
-          }
+      await setDoc(myLikeRef, {
+        createdAt: serverTimestamp(),
+      });
+
+      if (authorId && authorId !== userId) {
+        try {
+          await createNotification({
+            recipientId: authorId,
+            actorId: userId,
+            actorName,
+            type: "like",
+            message: "liked your post.",
+            targetId: postId,
+          });
+        } catch (notificationError) {
+          console.error("Like notification failed:", notificationError);
         }
       }
     } catch (err) {
@@ -111,6 +106,7 @@ function PostLikes({ postId, userId, authorId, actorName }) {
     }
   }
 
+
   return (
     <div className="likes-area">
       <button
@@ -119,8 +115,7 @@ function PostLikes({ postId, userId, authorId, actorName }) {
         disabled={busy}
         aria-pressed={liked}
       >
-        <Heart
-          size={18}
+        <ThumbsUp size={20} 
           fill={liked ? "currentColor" : "none"}
         />
         {liked ? "Liked" : "Like"} · {count}
@@ -344,13 +339,11 @@ function PostComments({ postId, postAuthorId, user }) {
   );
 }
 
-
-
-
 export default function Home({ user }) {
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("skillloop-theme") === "dark"
   );
+
   useEffect(() => {
     localStorage.setItem("skillloop-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
@@ -359,6 +352,7 @@ export default function Home({ user }) {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -367,7 +361,7 @@ export default function Home({ user }) {
   const [selectedExplorePost, setSelectedExplorePost] = useState(null);
   const [highlightedPostId, setHighlightedPostId] = useState(null);
 
-  
+
 
 
   useEffect(() => {
@@ -383,7 +377,7 @@ export default function Home({ user }) {
           id: item.id,
           ...item.data(),
         }));
-
+        console.log("News posts:", latestPosts.filter(post => post.isNews));
         setPosts(latestPosts);
         setLoading(false);
       },
@@ -745,9 +739,7 @@ export default function Home({ user }) {
 
         {active === "Home" && (
           <>
-          
-           
-    
+
             {/* Desktop create post form */}
             <div className="desktop-create-post">
               <h2 className="section-title">Create a post</h2>
