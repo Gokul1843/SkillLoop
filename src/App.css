@@ -5966,3 +5966,8 @@ body,
 .story-overlay {
   display: none !important;
 }
+
+.stories-section,
+.story-overlay {
+  display: none !important;
+}
