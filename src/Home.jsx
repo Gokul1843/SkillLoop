@@ -824,7 +824,7 @@ export default function Home({ user }) {
           <>
           
            
-            )}
+    
             {/* Desktop create post form */}
             <div className="desktop-create-post">
               <h2 className="section-title">Create a post</h2>
